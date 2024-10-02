@@ -23,19 +23,22 @@ function LoginSignup() {
 
     const navigate = useNavigate("")
 
-  //  const [Email, setEmail] = useState('');
-  //  const [Password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
    const[action ,setAction] = useState(true);
     const[isforgot, setForgot] = useState(false);
-    // const [Name, setName]   = useState("");
+    const [errorMessage, setErrorMessage] = useState('');
     const [NewPassword, setNewPassword] = useState("");
     const [ConfirmPassword, setConfirmPassword] = useState("");
    
-    // const handlesignin = useGoogleLogin({
-    //   onSuccess: (tokenResponse) =>  {console.log(tokenResponse)
-    //     navigate("/Home");
-    //   },
-    // });
+    const handleEmailChange = (event) => {
+      setFormData(...formData);
+      setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+      setPassword(event.target.value);
+  };
 
     const handleGoogleSignIn = () => {
       window.location.href = `${process.env.REACT_APP_BACKEND_URL}/auth/google/callback`;
@@ -79,6 +82,11 @@ useEffect(() => {
 
   const handlelogn = async (e) => {
       e.preventDefault();
+      if (email === '' || password === '') {
+        setErrorMessage('Email and Password are required.');
+    } else {
+        setErrorMessage('All fields are required');
+    }
       try {
         const response = await axios.post('http://localhost:5000/login', formData);
         alert(response.data.message); 
@@ -90,6 +98,7 @@ useEffect(() => {
   
     const handlereg = async (e) => {
       e.preventDefault();
+     
       try {
         const response = await axios.post('http://localhost:5000/register', register);
         alert(response.data.message); 
@@ -194,18 +203,20 @@ useEffect(() => {
                 <div className='input'>
                   <input type="email" placeholder='Email' 
                   value={formData.email}
-                 onChange={(e) => setFormData({...formData, email:e.target.value})} />
+                 onChange={handleEmailChange} />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
                   value={formData.password}
-              onChange={(e) => setFormData({...formData, password:e.target.value})} />
+              onChange={handlePasswordChange} />
                 </div>
                 <button className='login'>Login</button>
                 <div className='forgot-password'>
                 <a href='#f' onClick={handleforgot}>Forgot Password?</a>
                 </div>
-                <p className='signup'>Don't have an account?<span onClick={handlesignup}>Join here!</span></p>
+                <p className='signup'>Don't have an account?<span onClick={handlesignup}>
+                  Join here!</span></p>
+                  {errorMessage && <p className="error-message">{errorMessage}</p>}
           </div> </form>: <div>
             <form onSubmit={handlereg} >
           <div className='form'>
