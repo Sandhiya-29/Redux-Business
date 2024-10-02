@@ -222,7 +222,7 @@ const prevStep = () => {
                                   />
                             </div>
                         </>
-                    )}
+                    )}c
                         
           </div>
            <div className='content'>

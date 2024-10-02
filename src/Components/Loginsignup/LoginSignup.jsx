@@ -194,14 +194,14 @@ useEffect(() => {
                 <div className='input'>
                   <input type="email" placeholder='Email' 
                   value={formData.email}
-                 onChange={() => setFormData({...formData, email:e.target.value})} />
+                 onChange={(e) => setFormData({...formData, email:e.target.value})} />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
                   value={formData.password}
-              onChange={() => setFormData({...formData, password:e.tartget.value})} />
+              onChange={(e) => setFormData({...formData, password:e.target.value})} />
                 </div>
-                <button className='login' onClick={handleloginbtn} >Login</button>
+                <button className='login'>Login</button>
                 <div className='forgot-password'>
                 <a href='#f' onClick={handleforgot}>Forgot Password?</a>
                 </div>
@@ -212,19 +212,19 @@ useEffect(() => {
           <div className='input'>
                   <input type="password" placeholder='Name' 
                   value={register.name}
-                onChange={() => setRegister({...register, name:e.target.value})}  />
+                onChange={(e) => setRegister({...register, name:e.target.value})}  />
                 </div>
                 <div className='input'>
                   <input type="email" placeholder='Email'
                   value={register.email} 
-                 onChange={() => setRegister({...register, email:e.target.value})} />
+                 onChange={(e) => setRegister({...register, email:e.target.value})} />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
                     value={register.password}
-                onChange={() => setRegister({...register, password:e.target.value})}  />
+                onChange={(e) => setRegister({...register, password:e.target.value})}  />
                 </div>
-                <button className='login' onClick={handlesignupbtn} >Sign Up</button>
+                <button className='login'  >Sign Up</button>
                
                 <p className='signup'>Already have an account ?<span onClick={handlesignup}>Login</span></p>
           </div>
