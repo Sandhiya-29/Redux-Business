@@ -10,11 +10,7 @@ import { FaFacebookF } from "react-icons/fa6";
 
 function LoginSignup() {
 
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    
-  });
+  
      const [register, setRegister] = useState({
       name: "",
       email: "",
@@ -32,7 +28,6 @@ function LoginSignup() {
     const [ConfirmPassword, setConfirmPassword] = useState("");
    
     const handleEmailChange = (event) => {
-      setFormData(...formData);
       setEmail(event.target.value);
   };
 
@@ -80,21 +75,46 @@ useEffect(() => {
    fetchUserDetails();
  }, [navigate]); 
 
-  const handlelogn = async (e) => {
-      e.preventDefault();
-      if (email === '' || password === '') {
-        setErrorMessage('Email and Password are required.');
-    } else {
-        setErrorMessage('All fields are required');
-    }
+  
+ const handlelogn = async (event) => {
+  event.preventDefault();
+
+  if (email === '' || password === '') {
+      setErrorMessage('Email and Password are required.');
+  } else {
+      setErrorMessage('');
       try {
-        const response = await axios.post('http://localhost:5000/login', formData);
-        alert(response.data.message); 
-        navigate('/Home')
+          const response = await fetch('http://localhost:3008/login', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email, password }),
+          });
+
+          const responseBody = await response.json();
+
+          if (!response.ok) {
+              console.error('Response status:', response.status);
+              console.error('Response message:', responseBody.message);
+              throw new Error('Network response was not ok');
+          }
+
+          console.log('Login data:', responseBody);
+
+          if (responseBody.message === "Login successful") {
+              onLogin();
+              navigate('/home');
+          } else {
+              setErrorMessage(responseBody.message || 'Login failed');
+          }
       } catch (error) {
-        console.error('There was an error in Login!', error);
+          console.error('Error:', error);
+          setErrorMessage('An error occurred. Please try again.');
       }
-    };
+  }
+};
+
   
     const handlereg = async (e) => {
       e.preventDefault();
@@ -202,12 +222,14 @@ useEffect(() => {
              <div className='form'>
                 <div className='input'>
                   <input type="email" placeholder='Email' 
-                  value={formData.email}
+                  name="email"
+                  value={email}
                  onChange={handleEmailChange} />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
-                  value={formData.password}
+                  name='password'
+                  value={password}
               onChange={handlePasswordChange} />
                 </div>
                 <button className='login'>Login</button>
