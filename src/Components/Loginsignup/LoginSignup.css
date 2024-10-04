@@ -1,0 +1,239 @@
+body{
+    margin:0 ;
+    padding: 0;
+    box-sizing: border-box;
+    font-family:Open Sans;
+}
+.login-container{
+    display: flex;
+    margin-top: 60px;
+    flex-direction: row;
+}
+@media (max-width: 1024px) {
+    .login-container {
+        flex-direction: column;
+        align-items: center;
+        margin: 20px;
+    }
+
+    .signup-form {
+        width: 100%;
+        text-align: center;
+    }
+
+    .input input {
+        margin-left: 0;
+        align-items: center;
+    }
+}
+img {
+    max-width: 100%;
+    height: 400px;
+}
+@media (max-width: 768px) {
+    .login-container {
+        margin: 10px;
+    }
+
+    .input input {
+        max-width: 100%;
+    }
+
+    .facebook, .google {
+        width: 100%;
+        padding: 12px;
+        font-size: 14px;
+    }
+
+    .login {
+        max-width: 100%;
+        font-size: 14px;
+    }
+
+    .forgot-password {
+        text-align: center;
+    }
+}
+@media (max-width: 480px) {
+    .heading {
+        font-size: 24px;
+    }
+
+    .input input {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .login {
+        font-size: 13px;
+        padding: 10px;
+    }
+
+    .facebook, .google {
+        font-size: 13px;
+        padding: 8px;
+    }
+
+    span {
+        font-size: 14px;
+    }
+}
+
+.heading{
+   margin-top: 10px;
+   color:rgb(6, 196, 6);
+}
+.girl{
+    margin-left: 80px;
+    max-width:100vw;
+     height:100vh;
+}
+.fb{
+   position: absolute;
+   color: blue;
+   margin-top: 13px;
+   margin-left: 5px;
+   font-size: 20px;
+}
+.facebook{
+    width: 200px;
+    background-color: white;
+    color: black;
+    height: 40px;
+    border: 0.5px solid grey;
+    border-radius: 18px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: center;
+    padding-left: 10px;
+    margin-top: 5px;
+}
+.ggle{
+    position: absolute;
+   margin-top: 30px;
+   margin-left: 5px;
+   font-size: 20px;
+}
+.google{
+    width: 200px;
+    background-color: white;
+    color: black;
+    height: 40px;
+    border: 1px solid grey;
+    border-radius: 18px;
+    margin-top: 20px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.underline{
+    width: 260px;
+    height: 2px;
+    background-color: rgb(168, 167, 167);
+    border-radius: 3px;
+    margin-top: 20px;
+    margin-left: 70px;
+}
+.input{
+    width: 350px;
+    border-radius: 5px;
+    margin-left: 40px;
+    margin-top: 10px;
+}
+.input input{
+    width: 280px;
+    height: 30px;
+   border-radius: 10px;
+   border: none;
+  outline: none;
+  background-color: rgb(209, 207, 207);
+  padding: 10px;
+}
+@media (min-width: 768px) {
+    .underline {
+        width: 260px;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    .input {
+        width: 350px;
+        margin-left: auto;
+        margin-right: auto; 
+    }
+
+    .input input {
+        width: 100%;
+    }
+}
+
+@media (min-width: 1024px) {
+    .underline {
+        width: 260px;
+        margin-left: 70px; 
+    }
+
+    .input {
+        width: 350px;
+        margin-left: 40px; 
+    }
+
+    .input input {
+        width: 280px;
+    }
+}
+.login{
+    width: 200px;
+    background-color: rgb(6, 196, 6);
+    color: white;
+    height: 40px;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    margin-left: 30px;
+}
+.signup{
+    color: rgb(112, 111, 111);
+    font-size: 17px;
+    margin-left: 20px;
+}
+span{
+    color: rgb(5, 95, 125);
+    cursor: pointer;                        
+    text-decoration: underline;
+}
+.forgot-password{
+    margin-top: 20px;
+    margin-left: 30px;
+}
+ .role{
+    display: flex;
+    flex-direction: row;
+    /* margin-top: 30%;*/
+     margin-left: 30%; 
+    margin-top: 0; 
+}  
+ .btn{
+    width: 150px;
+    height: 40px;
+    background-color: rgb(65, 201, 65);
+    color: white;
+    border: none;
+    border-radius: 17px;
+   cursor: pointer;
+   font-size: 16px;
+   margin-left: 10px;
+   font-weight: 600;
+   text-align: center;
+} 
+.collab{
+    margin-left: 0;
+    width: 630px;
+    height: 430px;
+    margin-top: 0;
+    top: 0;
+}
