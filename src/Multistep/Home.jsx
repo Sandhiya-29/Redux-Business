@@ -190,7 +190,8 @@ const prevStep = () => {
                                 <input type="text"
                                  placeholder='Bio'
                                  value={formData.bio}
-                                 onChange={(e) => setFormData({...formData, bio:e.target.value})}
+                                 onChange={(e) => 
+                                  setFormData({...formData, bio:e.target.value})}
                                   />
                             </div>
                         </>
@@ -222,7 +223,7 @@ const prevStep = () => {
                                   />
                             </div>
                         </>
-                    )}c
+                    )}
                         
           </div>
            <div className='content'>

@@ -6,6 +6,7 @@ import { SlLike } from "react-icons/sl";
 import { FaRegComment } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
 import { FaUserCircle, FaSearch,FaPlus, FaFacebookMessenger} from 'react-icons/fa';
+import { BiRepost } from "react-icons/bi";
 
 const Dashboard = () => {
     
@@ -54,7 +55,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -72,7 +73,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -86,7 +90,7 @@ const Dashboard = () => {
                  <p className='description'> My goal is to minimize risk and maximize return.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -104,7 +108,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+              <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -120,7 +127,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -138,7 +145,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -154,7 +164,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -172,7 +182,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -188,7 +201,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -206,7 +219,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -222,7 +238,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -240,7 +256,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -256,7 +275,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -274,7 +293,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
             <div className='user-post'>
@@ -290,7 +312,7 @@ const Dashboard = () => {
                    particularly in the my industry.</p> 
               </div>
               </div>
-               <div className='post-content'>
+               <div className='post-icons'>
              
                 <div>
                {Liked ? (
@@ -308,7 +330,10 @@ const Dashboard = () => {
                      <LuSend  className='send-icon'/>
                      <p className='send'>Send</p>
               </div>
-             
+             <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
               </div> 
             </div>
              <div className='user-post'>
@@ -324,7 +349,7 @@ const Dashboard = () => {
                     particularly in the my industry.</p> 
                </div>
                </div>
-                <div className='post-content'>
+                <div className='post-icons'>
               
                  <div>
                 {Liked ? (
@@ -342,7 +367,10 @@ const Dashboard = () => {
                       <LuSend  className='send-icon'/>
                       <p className='send'>Send</p>
                </div>
-              
+              <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
                </div> 
              </div>
              <div className='user-post'>
@@ -358,7 +386,7 @@ const Dashboard = () => {
                     particularly in the my industry.</p> 
                </div>
                </div>
-                <div className='post-content'>
+                <div className='post-icons'>
               
                  <div>
                 {Liked ? (
@@ -376,7 +404,10 @@ const Dashboard = () => {
                       <LuSend  className='send-icon'/>
                       <p className='send'>Send</p>
                </div>
-              
+              <div>
+               <BiRepost className='repost-icon' />
+               <p className='repost'>Repost</p>
+             </div>
                </div> 
              </div>
              

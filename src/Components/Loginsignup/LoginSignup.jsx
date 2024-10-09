@@ -20,18 +20,20 @@ function LoginSignup() {
 
     const navigate = useNavigate("")
 
-     const [Email, setEmail] = useState('');
+     const [Email, setEmails] = useState('');
      const [password, setPassword] = useState('');
    const[action ,setAction] = useState(true);
     const[isforgot, setForgot] = useState(false);
     //  const [errorMessage, setErrorMessage] = useState('');
     const [Name, setName] = useState('');
-    const [NewPassword, setNewPassword] = useState("");
-    const [ConfirmPassword, setConfirmPassword] = useState("");
+    // const [NewPassword, setNewPassword] = useState("");
+    // const [ConfirmPassword, setConfirmPassword] = useState("");
+    const [email, setEmail] = useState('');
+    const [message, setMessage] = useState('');
    
-  //   const handleEmailChange = (event) => {
-  //     setEmail(event.target.value);
-  // };
+    const handleEmailChange = (event) => {
+      setEmail(event.target.value);
+  };
 
   // const handlePasswordChange = (event) => {
   //     setPassword(event.target.value);
@@ -166,6 +168,30 @@ function LoginSignup() {
   //         alert("Signup Successfull ");
   //     }
   // }
+      
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    fetch('http://localhost:5000/forgot-password', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            navigate('/ResetPassword', { state: { email } });
+        } else {
+            navigate('/ResetPassword', { state: { message: data.message || 'Password reset failed' } });
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        setMessage('An error occurred. Please try again.');
+    });
+};
+
 
     const handleloginbtn = () =>{
         if(Email === "" || password === "") 
@@ -185,14 +211,14 @@ function LoginSignup() {
       }
   }
 
-  const handleforgotbtn = () =>{
-    if(NewPassword === "" || ConfirmPassword === "") 
-    {
-       alert("All fields are required");
-    }else{
-        alert("Reset Password Successfull ");
-    }
-}
+//   const handleforgotbtn = () =>{
+//     if(NewPassword === "" || ConfirmPassword === "") 
+//     {
+//        alert("All fields are required");
+//     }else{
+//         alert("Reset Password Successfull ");
+//     }
+// }
   const handlesignup = () => {
     setAction(!action);
   }
@@ -227,12 +253,17 @@ function LoginSignup() {
     <div className='underline'>
     </div>
     or
-          { isforgot ?  <form> <div className='form'>
+          { isforgot ?    <form onSubmit={handleSubmit}> <div className='form'>
+          {message && <p>{message}</p>}
                 <div className='input'>
                   <input type="email" placeholder='Email id' 
-                 onChange={() => setEmail()} />
+                 id="email"
+                 name="email"
+                 value={email}
+                 onChange={handleEmailChange}
+                 required />
                 </div>
-                <button className='login' onClick={handleforgotbtn} >Send Mail</button>
+                <button className='login' type="submit">Request New Password</button>
          <br /> <br />
          <p className='signup'><span onClick={handlelogin}>Login</span></p>
           </div> </form>  : action ?
@@ -241,7 +272,7 @@ function LoginSignup() {
              <div className='form'>
                 <div className='input'>
                   <input type="email" placeholder='Email' 
-                onChange={() => setEmail()}    />
+                onChange={() => setEmails()}    />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
@@ -269,7 +300,7 @@ function LoginSignup() {
                 </div>
                 <div className='input'>
                   <input type="email" placeholder='Email'
-                  onChange={() => setEmail()}  />
+                  onChange={() => setEmails()}  />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
@@ -281,11 +312,11 @@ function LoginSignup() {
            </div> </form> :  <form> <div className='form'>
                 <div className='input'>
                   <input type="password" placeholder='New Password' 
-                 onChange={() => setNewPassword()} />
+                 />
                 </div>
                 <div className='input'>
                    <input type="password" placeholder='Confirm Password'
-                   onChange={() => setConfirmPassword()} />
+                 />
                 </div>
                 <button className='login' >Reset Password</button>
               
