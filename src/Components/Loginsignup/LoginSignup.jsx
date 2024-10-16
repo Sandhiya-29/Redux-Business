@@ -2,24 +2,19 @@ import React, {useState,  useEffect } from 'react';
 import './LoginSignup.css';
 import vision from './images.png';
 import { FaFacebookF } from "react-icons/fa6";
-  import { FcGoogle } from "react-icons/fc";
-  // import {useGoogleLogin} from "@react-oauth/google";
-  import {useNavigate} from "react-router-dom";
-
-     import axios from 'axios';
+import { FcGoogle } from "react-icons/fc";
+import {useNavigate} from "react-router-dom";
+import axios from 'axios';
   
-
 function LoginSignup() {
 
-  
      const [register, setRegister] = useState({
       name: "",
       email: "",
       password: "",
      })
 
-    const navigate = useNavigate("")
-
+    const navigate = useNavigate("");
     //  const [Email, setEmails] = useState('');
      const [password, setPassword] = useState('');
    const[action ,setAction] = useState(true);
@@ -40,17 +35,17 @@ function LoginSignup() {
   // };
 
     const handleGoogleSignIn = () => {
-      window.location.href = `http://localhost:5000/auth/google/callback`;
+      window.location.href = `https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/google/callback`;
   };
 
   const handleFacebookLogin = () => {
-    window.location.href = 'http://localhost:5000/auth/facebook/callback'; 
+    window.location.href = 'https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/facebook/callback'; 
   };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/auth/google`);
+            const res = await axios.get(`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/google`);
             const { token } = res.data; 
             localStorage.setItem('authToken', token); 
             navigate('/home'); 
@@ -66,7 +61,7 @@ function LoginSignup() {
 useEffect(() => {
   const fetchUserDetails = async () => {
       try {
-          const res = await axios.get('http://localhost:5000/auth/facebook');
+          const res = await axios.get('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/facebook');
           const { token } = res.data; 
           localStorage.setItem('authToken', token); 
           navigate('/home'); 
@@ -88,7 +83,7 @@ useEffect(() => {
       setErrorMessage('');
       try {
           const response = await
-   fetch('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/login', {
+   fetch('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/login', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -121,7 +116,7 @@ useEffect(() => {
     const handlereg = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post('http://localhost:5000/register', register);
+        const response = await axios.post('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/register', register);
         alert(response.data.message); 
       } catch (error) {
         console.error('There was an error submitting the form!', error);
@@ -134,7 +129,8 @@ useEffect(() => {
   const fetchUserProfile = async () => {
       try {
           const token = localStorage.getItem('authToken');
-          const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+          const res = await axios.get
+    (`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/profile`, {
               headers: {
                   Authorization: `Bearer ${token}`,
               },
@@ -169,7 +165,7 @@ useEffect(() => {
       
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('http://localhost:5000/forgot-password', {
+    fetch('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/forgot-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
