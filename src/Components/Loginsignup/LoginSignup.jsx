@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, {useState,  useEffect } from 'react';
 import './LoginSignup.css';
 import vision from './images.png';
 import { FaFacebookF } from "react-icons/fa6";
@@ -6,31 +6,31 @@ import { FaFacebookF } from "react-icons/fa6";
   // import {useGoogleLogin} from "@react-oauth/google";
   import {useNavigate} from "react-router-dom";
 
-    // import axios from 'axios';
+     import axios from 'axios';
   
 
 function LoginSignup() {
 
   
-    //  const [register, setRegister] = useState({
-    //   name: "",
-    //   email: "",
-    //   password: "",
-    //  })
+     const [register, setRegister] = useState({
+      name: "",
+      email: "",
+      password: "",
+     })
 
     const navigate = useNavigate("")
 
-     const [Email, setEmails] = useState('');
+    //  const [Email, setEmails] = useState('');
      const [password, setPassword] = useState('');
    const[action ,setAction] = useState(true);
     const[isforgot, setForgot] = useState(false);
-    //  const [errorMessage, setErrorMessage] = useState('');
-    const [Name, setName] = useState('');
+       const [errorMessage, setErrorMessage] = useState('');
+    // const [Name, setName] = useState('');
     // const [NewPassword, setNewPassword] = useState("");
     // const [ConfirmPassword, setConfirmPassword] = useState("");
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
-   
+   const [name] = useState('');
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
   };
@@ -39,135 +39,133 @@ function LoginSignup() {
   //     setPassword(event.target.value);
   // };
 
-  //   const handleGoogleSignIn = () => {
-  //     window.location.href = `${process.env.REACT_APP_BACKEND_URL}/auth/google/callback`;
-  // };
+    const handleGoogleSignIn = () => {
+      window.location.href = `http://localhost:5000/auth/google/callback`;
+  };
 
-  // const handleFacebookLogin = () => {
-  //   window.location.href = 'http://localhost:5000/auth/facebook/callback'; 
-  // };
+  const handleFacebookLogin = () => {
+    window.location.href = 'http://localhost:5000/auth/facebook/callback'; 
+  };
 
-//   useEffect(() => {
-//     const fetchUserDetails = async () => {
-//         try {
-//             const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/auth/google`);
-//             const { token } = res.data; 
-//             localStorage.setItem('authToken', token); 
-//             navigate('/home'); 
-//         } catch (error) {
-//             console.error('Error during Google login', error);
-//             navigate('/failure');
-//         }
-//     };
+  useEffect(() => {
+    const fetchUserDetails = async () => {
+        try {
+            const res = await axios.get(`http://localhost:5000/auth/google`);
+            const { token } = res.data; 
+            localStorage.setItem('authToken', token); 
+            navigate('/home'); 
+        } catch (error) {
+            console.error('Error during Google login', error);
+            navigate('/failure');
+        }
+    };
 
-//     fetchUserDetails();
-// }, [navigate]); 
+    fetchUserDetails();
+}, [navigate]); 
 
-// useEffect(() => {
-//   const fetchUserDetails = async () => {
-//       try {
-//           const res = await axios.get('http://localhost:5000/auth/facebook/');
-//           const { token } = res.data; 
-//           localStorage.setItem('authToken', token); 
-//           navigate('/home'); 
-//       } catch (error) {
-//           console.error('Error during Facebook login', error);
-//           navigate('/failure');
-//       }
-//   };
+useEffect(() => {
+  const fetchUserDetails = async () => {
+      try {
+          const res = await axios.get('http://localhost:5000/auth/facebook');
+          const { token } = res.data; 
+          localStorage.setItem('authToken', token); 
+          navigate('/home'); 
+      } catch (error) {
+          console.error('Error during Facebook login', error);
+          navigate('/failure');
+      }
+  };
 
-//    fetchUserDetails();
-//  }, [navigate]); 
+   fetchUserDetails();
+ }, [navigate]); 
 
-  
-//  const handlelogn = async (event) => {
-//   event.preventDefault();
+ const handlelogn = async (event) => {
+  event.preventDefault();
 
-//   if (email === '' || password === '') {
-//       setErrorMessage('Email and Password are required.');
-//   } else {
-//       setErrorMessage('');
-//       try {
-//           const response = await fetch('http://localhost:3008/login', {
-//               method: 'POST',
-//               headers: {
-//                   'Content-Type': 'application/json',
-//               },
-//               body: JSON.stringify({ email, password }),
-//           });
+  if (email === '' || password === '') {
+      setErrorMessage('Email and Password are required.');
+  } else {
+      setErrorMessage('');
+      try {
+          const response = await
+   fetch('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/login', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ email, password }),
+          });
 
-//           const responseBody = await response.json();
+          const responseBody = await response.json();
 
-//           if (!response.ok) {
-//               console.error('Response status:', response.status);
-//               console.error('Response message:', responseBody.message);
-//               throw new Error('Network response was not ok');
-//           }
+          if (!response.ok) {
+              console.error('Response status:', response.status);
+              console.error('Response message:', responseBody.message);
+              throw new Error('Network response was not ok');
+          }
 
-//           console.log('Login data:', responseBody);
+          console.log('Login data:', responseBody);
 
-//           if (responseBody.message === "Login successful") {
-//               navigate('/home');
-//           } else {
-//               setErrorMessage(responseBody.message || 'Login failed');
-//           }
-//       } catch (error) {
-//           console.error('Error:', error);
-//           setErrorMessage('An error occurred. Please try again.');
-//       }
-//   }
-//    };
-
-  
-    // const handlereg = async (e) => {
-    //   e.preventDefault();
-     
-    //   try {
-    //     const response = await axios.post('http://localhost:5000/register', register);
-    //     alert(response.data.message); 
-    //   } catch (error) {
-    //     console.error('There was an error submitting the form!', error);
-    //   }
-    // };
+          if (responseBody.message === "Login successful") {
+             
+              navigate('/home');
+          } else {
+              setErrorMessage(responseBody.message || 'Login failed');
+          }
+      } catch (error) {
+          console.error('Error:', error);
+          setErrorMessage('An error occurred. Please try again.');
+      }
+  }
+};
+    const handlereg = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await axios.post('http://localhost:5000/register', register);
+        alert(response.data.message); 
+      } catch (error) {
+        console.error('There was an error submitting the form!', error);
+      }
+    };
 
   
   
-// useEffect(() => {
-//   const fetchUserProfile = async () => {
-//       try {
-//           const token = localStorage.getItem('authToken');
-//           const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
-//               headers: {
-//                   Authorization: `Bearer ${token}`,
-//               },
-//           });
-//           console.log('User Profile:', res.data);
-//       } catch (error) {
-//           console.error('Error fetching user profile', error);
-//       }
-//   };
+useEffect(() => {
+  const fetchUserProfile = async () => {
+      try {
+          const token = localStorage.getItem('authToken');
+          const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/profile`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          });
+          console.log('User Profile:', res.data);
+      } catch (error) {
+          console.error('Error fetching user profile', error);
+      }
+  };
 
-//   fetchUserProfile();
-// }, []); 
+  fetchUserProfile();
+}, []); 
     
  
-    // const handleloginbtn = () =>{
-    //     if(email === "" || password === "") 
-    //     {
-    //        alert("All fields are required");
-    //     }else{
-    //         alert("Login Successfull");
-    //          navigate('/Home');
-    //     }
-    // }
-  //   const handlesignupbtn = () =>{
-  //     if(name === "" || email === "" || password === "") 
-  //     {
-  //        alert("All fields are required");
-  //     }else{
-  //         alert("Signup Successfull ");
-  //     }
-  // }
+    const handleloginbtn = () =>{
+        if(email === "" || password === "") 
+        {
+           alert("All fields are required");
+        }else{
+            alert("Login Successfull");
+             navigate('/Home');
+        }
+    }
+    const handlesignupbtn = () =>{
+      if(name === "" || email === "" || password === "") 
+      {
+         alert("All fields are required");
+      }else{
+          alert("Signup Successfull ");
+      }
+  }
       
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -193,23 +191,23 @@ function LoginSignup() {
 };
 
 
-    const handleloginbtn = () =>{
-        if(Email === "" || password === "") 
-        {
-           alert("All fields are required");
-        }else{
-            alert("Login Successfull");
-             navigate('/Home');
-        }
-    }
-    const handlesignupbtn = () =>{
-      if(Name === "" || Email === "" || password === "") 
-      {
-         alert("All fields are required");
-      }else{
-          alert("Signup Successfull ");
-      }
-  }
+    // const handleloginbtn = () =>{
+    //     if(Email === "" || password === "") 
+    //     {
+    //        alert("All fields are required");
+    //     }else{
+    //         alert("Login Successfull");
+    //          navigate('/Home');
+    //     }
+    // }
+  //   const handlesignupbtn = () =>{
+  //     if(Name === "" || Email === "" || password === "") 
+  //     {
+  //        alert("All fields are required");
+  //     }else{
+  //         alert("Signup Successfull ");
+  //     }
+  // }
 
 //   const handleforgotbtn = () =>{
 //     if(NewPassword === "" || ConfirmPassword === "") 
@@ -242,13 +240,13 @@ function LoginSignup() {
         <h1 className='heading'>Welcome!</h1>
     <div>
     <FaFacebookF className='fb' />
-        <button className='facebook'  >Sign in with Facebook</button>
+        <button className='facebook' onClick={handleFacebookLogin} >Sign in with Facebook</button>
 
     </div>
     <div>
      
      <FcGoogle className='ggle' />
-    <button className='google'  >Sign in with Google</button> 
+    <button className='google' onClick={handleGoogleSignIn}  >Sign in with Google</button> 
     </div>
     <div className='underline'>
     </div>
@@ -269,10 +267,11 @@ function LoginSignup() {
           </div> </form>  : action ?
 
            <form  >
-             <div className='form'>
+             <div className='form' onSubmit={handlelogn}>
+               {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <div className='input'>
                   <input type="email" placeholder='Email' 
-                onChange={() => setEmails()}    />
+                onChange={() => setEmail()}    />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
@@ -292,24 +291,29 @@ function LoginSignup() {
                   </div>
                  </form>
           : <div>
-            <form  >
-          <div className='form'>
+            {/* <form  > */}
+          {/* <div className='form' onClick={handlereg}>
           <div className='input'>
                   <input type="password" placeholder='Name' 
+                  value={name}
                  onChange={() => setName()}   />
                 </div>
                 <div className='input'>
                   <input type="email" placeholder='Email'
+                  value={email}
                   onChange={() => setEmails()}  />
                 </div>
                 <div className='input'>
-                  <input type="password" placeholder='Password' 
+                  <input type="password" placeholder='Password'
+                  value={password}
                     onChange={() => setPassword()}   />
                 </div>
                 <button className='login'onClick={ handlesignupbtn } >Sign Up</button>
 
                  
-           </div> </form> :  <form> <div className='form'>
+           </div> </form> */}: 
+            <form >
+               <div className='form'> 
                 <div className='input'>
                   <input type="password" placeholder='New Password' 
                  />
@@ -322,31 +326,32 @@ function LoginSignup() {
               
          <p className='signup'><span onClick={handlelogin}>Login</span></p>
           </div> </form>
-          {/* : <div>
-            <form  >
+           : <div>
+            <form onSubmit={handlereg} >
           <div className='form'>
           <div className='input'>
                   <input type="password" placeholder='Name' 
                   value={register.name}
-                onChange={(e) => setRegister()}  />
+                  onChange={(e) => setRegister
+                    ({...register, name:e.target.value})} />
                 </div>
                 <div className='input'>
                   <input type="email" placeholder='Email'
                   value={register.email} 
-                 onChange={(e) => setRegister()} />
+                 onChange={(e) => setRegister({...register,email:e.target.value})} />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
                     value={register.password}
-                onChange={(e) => setRegister()}  />
+                onChange={(e) => setRegister({...register,password:e.target.value})}  />
                 </div>
-                <button className='login'  >Sign Up</button>
+                <button className='login' type='submit' onClick={handlesignupbtn}  >Sign Up</button>
 
                
                 <p className='signup'>Already have an account ?<span onClick={handlesignup}>Login</span></p>
           </div>
           </form> 
-          </div>  */}
+          </div>  
             </div>}
             
    </div>
