@@ -29,7 +29,7 @@ const Dashboard = () => {
     });
    
     useEffect(() => {
-      axios.get('http://localhost:5000/api/get-posts')
+      axios.get('https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/get-posts')
         .then(response => {
           setPostsData(response.data); // Assuming the backend returns a list of posts
         })
@@ -37,7 +37,7 @@ const Dashboard = () => {
     }, []);
    
     const toggleLike = (postId, isLiked) => {
-      const url = isLiked ? 'http://localhost:5000/api/unlike' : '/api/like';
+      const url = isLiked ? 'https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/unlike' : '/api/like';
       axios.put(url, { postId }) // Send postId to backend to handle like/unlike
         .then(() => {
           setLikedPosts((prevLiked) => ({
@@ -71,12 +71,12 @@ const Dashboard = () => {
  };
 
  const handlePostSubmit = () => {
-   axios.post('http://localhost:5000/api/post', newPost)
+   axios.post('https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/post', newPost)
      .then(() => {
        // Close modal after posting and refresh the posts
        formmodal();
-       axios.get('http://localhost:5000/api/get-posts') // Re-fetch posts after new post
-         .then(response => setPostsData(response.data));
+       axios.get('https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/get-posts') // Re-fetch posts after new post
+         .then(response => setPostsData(response.postsData));
      })
      .catch(error => console.error('Error posting:', error));
  };

@@ -1,4 +1,4 @@
-import React, {useState,  useEffect } from 'react';
+import React, {useState } from 'react';
 import './LoginSignup.css';
 import vision from './images.png';
 import { FaFacebookF } from "react-icons/fa6";
@@ -7,74 +7,94 @@ import {useNavigate} from "react-router-dom";
 import axios from 'axios';
   
 function LoginSignup() {
-
-     const [register, setRegister] = useState({
-      name: "",
-      email: "",
-      password: "",
-     })
-
+  
     const navigate = useNavigate("");
-    //  const [Email, setEmails] = useState('');
-     const [password, setPassword] = useState('');
+    //login
+    const [email,setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    //forgotpassword
+    const [emails, setEmails] = useState("");
    const[action ,setAction] = useState(true);
     const[isforgot, setForgot] = useState(false);
-       const [errorMessage, setErrorMessage] = useState('');
-    // const [Name, setName] = useState('');
-    // const [NewPassword, setNewPassword] = useState("");
-    // const [ConfirmPassword, setConfirmPassword] = useState("");
-    const [email, setEmail] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
     const [message, setMessage] = useState('');
-   const [name] = useState('');
+    //registe' 
+    // const [name, setName] = useState('');
+    // const [mail, setmail]  = useState("");
+    // const [passwords, setPasswords] = useState("");
+    const [register, setRegister] = useState(
+    {
+      name:' ',
+      email:' ',
+      password:' ',
+     }
+    
+    );
+
+    
+
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
   };
 
-  // const handlePasswordChange = (event) => {
-  //     setPassword(event.target.value);
+  const handlePasswordChange = (event) => {
+      setPassword(event.target.value);
+  };
+    
+   const handlemailChange = (event) => {
+     setEmails(event.target.value)
+   }
+  //  const handleNamechange = (event) => {
+  //   setName(event.target.value);
+  //  }
+
+  //  const handlemaildchange = (event) => {
+  //   setmail(event.target.value);
+  //  }
+  //  const handlepasswordschange = (event) => {
+  //   setPasswords(event.target.value);
+  //  }
+  //   const handleGoogleSignIn = () => {
+  //     window.location.href = `https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/google/callback`;
   // };
 
-    const handleGoogleSignIn = () => {
-      window.location.href = `https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/google/callback`;
-  };
+  // const handleFacebookLogin = () => {
+  //   window.location.href = 'https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/facebook/callback'; 
+  // };
 
-  const handleFacebookLogin = () => {
-    window.location.href = 'https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/facebook/callback'; 
-  };
+//   useEffect(() => {
+//     const fetchUserDetails = async () => {
+//         try {
+//             const res = await axios.get(`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/google`);
+//             const { token } = res.data; 
+//             localStorage.setItem('authToken', token); 
+//             navigate('/home'); 
+//         } catch (error) {
+//             console.error('Error during Google login', error);
+//             navigate('/failure');
+//         }
+//     };
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-        try {
-            const res = await axios.get(`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/google`);
-            const { token } = res.data; 
-            localStorage.setItem('authToken', token); 
-            navigate('/home'); 
-        } catch (error) {
-            console.error('Error during Google login', error);
-            navigate('/failure');
-        }
-    };
+//     fetchUserDetails();
+// }, [navigate]); 
 
-    fetchUserDetails();
-}, [navigate]); 
+// useEffect(() => {
+//   const fetchUserDetails = async () => {
+//       try {
+//           const res = await axios.get('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/facebook');
+//           const { token } = res.data; 
+//           localStorage.setItem('authToken', token); 
+//           navigate('/home'); 
+//       } catch (error) {
+//           console.error('Error during Facebook login', error);
+//           navigate('/failure');
+//       }
+//   };
 
-useEffect(() => {
-  const fetchUserDetails = async () => {
-      try {
-          const res = await axios.get('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/auth/facebook');
-          const { token } = res.data; 
-          localStorage.setItem('authToken', token); 
-          navigate('/home'); 
-      } catch (error) {
-          console.error('Error during Facebook login', error);
-          navigate('/failure');
-      }
-  };
+//    fetchUserDetails();
+//  }, [navigate]); 
 
-   fetchUserDetails();
- }, [navigate]); 
-
- const handlelogn = async (event) => {
+ const handlelogin = async (event) => {
   event.preventDefault();
 
   if (email === '' || password === '') {
@@ -83,7 +103,8 @@ useEffect(() => {
       setErrorMessage('');
       try {
           const response = await
-   fetch('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/login', {
+   fetch('https://3c55-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/login', 
+   {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
@@ -113,59 +134,57 @@ useEffect(() => {
       }
   }
 };
-    const handlereg = async (e) => {
+    const handleregister = async (e) => {
       e.preventDefault();
       try {
-        const response = await axios.post('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/register', register);
-        alert(response.data.message); 
-      } catch (error) {
-        console.error('There was an error submitting the form!', error);
+        console.log(register);
+        const response =  await axios.post(`https://3c55-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/register`, register);
+         setMessage(response.data.message)
+    }    catch (error) {
+      console.error('There was an error submitting the form!', error);
       }
     };
 
-  
-  
-useEffect(() => {
-  const fetchUserProfile = async () => {
-      try {
-          const token = localStorage.getItem('authToken');
-          const res = await axios.get
-    (`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/profile`, {
-              headers: {
-                  Authorization: `Bearer ${token}`,
-              },
-          });
-          console.log('User Profile:', res.data);
-      } catch (error) {
-          console.error('Error fetching user profile', error);
-      }
-  };
+  // useEffect(() => {
+  // const fetchUserProfile = async () => {
+  //     try {
+  //         const token = localStorage.getItem('authToken');
+  //         const res = await axios.get(`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/profile`, {
+  //             headers: {
+  //                 Authorization: `Bearer ${token}`,
+  //             },
+  //         });
+  //         console.log('User Profile:', res.data);
+  //     } catch (error) {
+  //         console.error('Error fetching user profile', error);
+  //     }
+  // };
 
-  fetchUserProfile();
-}, []); 
+//   fetchUserProfile();
+// }, []); 
     
  
-    const handleloginbtn = () =>{
-        if(email === "" || password === "") 
-        {
-           alert("All fields are required");
-        }else{
-            alert("Login Successfull");
-             navigate('/Home');
-        }
-    }
-    const handlesignupbtn = () =>{
-      if(name === "" || email === "" || password === "") 
-      {
-         alert("All fields are required");
-      }else{
-          alert("Signup Successfull ");
-      }
-  }
+    // const handleloginbtn = () =>{
+    //     if(email === "" || password === "") 
+    //     {
+    //        alert("All fields are required");
+    //     }else{
+    //         alert("Login Successfull");
+    //          navigate('/Home');
+    //     }
+    // }
+  //   const handlesignupbtn = () =>{
+  //     if(name === "" || email === "" || password === "") 
+  //     {
+  //        alert("All fields are required");
+  //     }else{
+  //         alert("Signup Successfull ");
+  //     }
+  // }
       
   const handleSubmit = (event) => {
     event.preventDefault();
-    fetch('https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/forgot-password', {
+    fetch('https://3c55-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/forgot-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -185,9 +204,14 @@ useEffect(() => {
         setMessage('An error occurred. Please try again.');
     });
 };
+      const handleInputChange = (e) => {
+        setRegister({
+          ...register,
+          [e.target.name]: e.target.value,
+        });
+      };
 
-
-    // const handleloginbtn = () =>{
+      // const handleloginbtn = () =>{
     //     if(Email === "" || password === "") 
     //     {
     //        alert("All fields are required");
@@ -205,14 +229,7 @@ useEffect(() => {
   //     }
   // }
 
-//   const handleforgotbtn = () =>{
-//     if(NewPassword === "" || ConfirmPassword === "") 
-//     {
-//        alert("All fields are required");
-//     }else{
-//         alert("Reset Password Successfull ");
-//     }
-// }
+
   const handlesignup = () => {
     setAction(!action);
   }
@@ -221,7 +238,7 @@ useEffect(() => {
     setForgot(true);
     }
 
-    const handlelogin = () => {
+    const handlelogn = () => {
         setForgot(false);
         setAction(true);
     }
@@ -236,13 +253,13 @@ useEffect(() => {
         <h1 className='heading'>Welcome!</h1>
     <div>
     <FaFacebookF className='fb' />
-        <button className='facebook' onClick={handleFacebookLogin} >Sign in with Facebook</button>
+        <button className='facebook' >Sign in with Facebook</button>
 
     </div>
     <div>
      
      <FcGoogle className='ggle' />
-    <button className='google' onClick={handleGoogleSignIn}  >Sign in with Google</button> 
+    <button className='google' >Sign in with Google</button> 
     </div>
     <div className='underline'>
     </div>
@@ -253,30 +270,34 @@ useEffect(() => {
                   <input type="email" placeholder='Email id' 
                  id="email"
                  name="email"
-                 value={email}
-                 onChange={handleEmailChange}
+                 value={emails}
+                 onChange={handlemailChange}
                  required />
                 </div>
                 <button className='login' type="submit">Request New Password</button>
          <br /> <br />
-         <p className='signup'><span onClick={handlelogin}>Login</span></p>
+         <p className='signup'><span onClick={handlelogn}>Login</span></p>
           </div> </form>  : action ?
 
-           <form  >
-             <div className='form' onSubmit={handlelogn}>
+           <form  onSubmit={handlelogin}>
+             <div className='form'>
                {errorMessage && <p className="error-message">{errorMessage}</p>}
                 <div className='input'>
                   <input type="email" placeholder='Email' 
-                onChange={() => setEmail()}    />
+                  id="email"
+                  name="email"
+                  //value={email}
+                 onChange={handleEmailChange}  />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
                   name='password'
-
-                  onChange={() => setPassword()} 
+                   id="password"
+                  //value={password}
+                   onChange={handlePasswordChange}
             />
                 </div>
-                <button className='login' onClick={handleloginbtn}>Login</button>
+                <button className='login' type='submit'>Login</button>
 
                 <div className='forgot-password'>
                 <a href='#f' onClick={handleforgot}>Forgot Password?</a>
@@ -285,70 +306,39 @@ useEffect(() => {
                 <p className='signup'>Don't have an account?<span onClick={handlesignup}>
                   Join here!</span></p>
                   </div>
-                 </form>
-          : <div>
-            {/* <form  > */}
-          {/* <div className='form' onClick={handlereg}>
-          <div className='input'>
-                  <input type="password" placeholder='Name' 
-                  value={name}
-                 onChange={() => setName()}   />
-                </div>
-                <div className='input'>
-                  <input type="email" placeholder='Email'
-                  value={email}
-                  onChange={() => setEmails()}  />
-                </div>
-                <div className='input'>
-                  <input type="password" placeholder='Password'
-                  value={password}
-                    onChange={() => setPassword()}   />
-                </div>
-                <button className='login'onClick={ handlesignupbtn } >Sign Up</button>
-
-                 
-           </div> </form> */}: 
-            <form >
-               <div className='form'> 
-                <div className='input'>
-                  <input type="password" placeholder='New Password' 
-                 />
-                </div>
-                <div className='input'>
-                   <input type="password" placeholder='Confirm Password'
-                 />
-                </div>
-                <button className='login' >Reset Password</button>
-              
-         <p className='signup'><span onClick={handlelogin}>Login</span></p>
-          </div> </form>
-           : <div>
-            <form onSubmit={handlereg} >
+                 </form>  : <div>
+            <form onSubmit={handleregister} >
           <div className='form'>
           <div className='input'>
-                  <input type="password" placeholder='Name' 
-                  value={register.name}
-                  onChange={(e) => setRegister
-                    ({...register, name:e.target.value})} />
+                  <input type="text" placeholder='Name'
+                name='name'
+                id='name'
+                value={register.name}
+                onChange={handleInputChange}
+                required/>
                 </div>
                 <div className='input'>
                   <input type="email" placeholder='Email'
-                  value={register.email} 
-                 onChange={(e) => setRegister({...register,email:e.target.value})} />
+                 id='email'
+                 name='email'
+                 value={register.email}
+                 onChange={handleInputChange}
+                 required/>
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
-                    value={register.password}
-                onChange={(e) => setRegister({...register,password:e.target.value})}  />
+                    id='password'
+                    name='password'
+                   value={register.password}
+                    onChange={handleInputChange}
+                    required/>
                 </div>
-                <button className='login' type='submit' onClick={handlesignupbtn}  >Sign Up</button>
-
-               
+                <button className='login' type='submit'>Sign Up</button>
                 <p className='signup'>Already have an account ?<span onClick={handlesignup}>Login</span></p>
           </div>
           </form> 
           </div>  
-            </div>}
+            }
             
    </div>
    </div>

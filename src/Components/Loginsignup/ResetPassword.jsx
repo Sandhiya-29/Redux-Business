@@ -53,7 +53,7 @@ const ResetPassword = () => {
         }
 
         try {
-            const response = await fetch(`http://localhost:5000/reset-password/${token}`, {
+            const response = await fetch(`https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/reset-password/${token}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
