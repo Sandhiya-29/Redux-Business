@@ -29,7 +29,7 @@ const Dashboard = () => {
     });
    
     useEffect(() => {
-      axios.get('https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/get-posts')
+      axios.get('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/get-posts')
         .then(response => {
           setPostsData(response.data); // Assuming the backend returns a list of posts
         })
@@ -37,7 +37,7 @@ const Dashboard = () => {
     }, []);
    
     const toggleLike = (postId, isLiked) => {
-      const url = isLiked ? 'https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/unlike' : '/api/like';
+      const url = isLiked ? 'https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/unlike' : '/api/like';
       axios.put(url, { postId }) // Send postId to backend to handle like/unlike
         .then(() => {
           setLikedPosts((prevLiked) => ({
@@ -71,12 +71,14 @@ const Dashboard = () => {
  };
 
  const handlePostSubmit = () => {
-   axios.post('https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/post', newPost)
+   axios.post('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/post', newPost)
      .then(() => {
-       // Close modal after posting and refresh the posts
        formmodal();
-       axios.get('https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/get-posts') // Re-fetch posts after new post
-         .then(response => setPostsData(response.postsData));
+       axios.get('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/get-posts') // Re-fetch posts after new post
+       .then(response => {
+         console.log(response.data); 
+         setPostsData(response.data);
+       })
      })
      .catch(error => console.error('Error posting:', error));
  };
@@ -101,7 +103,7 @@ const Dashboard = () => {
           </div>
    <div className='content'>
         <div className='post-container'>
-        {postsData.map((post, i) => (
+        {Array.isArray(postsData) && postsData.map((post, i) => (
             <div key={post._id} className='user-post' >
             <div className='post-content'>
               <div>

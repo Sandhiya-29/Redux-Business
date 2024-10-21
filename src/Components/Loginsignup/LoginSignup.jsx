@@ -13,7 +13,7 @@ function LoginSignup() {
     const [email,setEmail] = useState("");
     const [password, setPassword] = useState("");
     //forgotpassword
-    const [emails, setEmails] = useState("");
+    
    const[action ,setAction] = useState(true);
     const[isforgot, setForgot] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
@@ -24,9 +24,9 @@ function LoginSignup() {
     // const [passwords, setPasswords] = useState("");
     const [register, setRegister] = useState(
     {
-      name:' ',
-      email:' ',
-      password:' ',
+      name:'',
+      email:'',
+      password:'',
      }
     
     );
@@ -41,9 +41,9 @@ function LoginSignup() {
       setPassword(event.target.value);
   };
     
-   const handlemailChange = (event) => {
-     setEmails(event.target.value)
-   }
+  //  const handlemailChange = (event) => {
+  //    setEmail(event.target.value)
+  //  }
   //  const handleNamechange = (event) => {
   //   setName(event.target.value);
   //  }
@@ -94,57 +94,42 @@ function LoginSignup() {
 //    fetchUserDetails();
 //  }, [navigate]); 
 
- const handlelogin = async (event) => {
-  event.preventDefault();
-
-  if (email === '' || password === '') {
-      setErrorMessage('Email and Password are required.');
-  } else {
-      setErrorMessage('');
+ 
+    const handleSubmit = async () => {
       try {
-          const response = await
-   fetch('https://3c55-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/login', 
-   {
-              method: 'POST',
-              headers: {
-                  'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({ email, password }),
-          });
-
-          const responseBody = await response.json();
-
-          if (!response.ok) {
-              console.error('Response status:', response.status);
-              console.error('Response message:', responseBody.message);
-              throw new Error('Network response was not ok');
-          }
-
-          console.log('Login data:', responseBody);
-
-          if (responseBody.message === "Login successful") {
-             
-              navigate('/home');
-          } else {
-              setErrorMessage(responseBody.message || 'Login failed');
-          }
-      } catch (error) {
-          console.error('Error:', error);
-          setErrorMessage('An error occurred. Please try again.');
-      }
-  }
-};
-    const handleregister = async (e) => {
-      e.preventDefault();
-      try {
-        console.log(register);
-        const response =  await axios.post(`https://3c55-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/register`, register);
-         setMessage(response.data.message)
-    }    catch (error) {
+        await axios.post(`https://17ca-2401-4900-8824-9f2-68c8-d24a-c9cc-5457.ngrok-free.app/api/register`, register);
+    } catch (error) {
       console.error('There was an error submitting the form!', error);
       }
     };
-
+        
+    const handlelogin = async (e) => {
+      e.preventDefault();
+  
+      if (email === "" || password === "") {
+          setErrorMessage("All fields are required");
+          return;
+      }
+  
+      try {
+          const response = await axios.post(`https://17ca-2401-4900-8824-9f2-68c8-d24a-c9cc-5457.ngrok-free.app/api/login`, {
+              email,
+              password
+          });
+          if (response.data.success) {
+              const { token } = response.data;
+              localStorage.setItem('authToken', token);  
+              navigate('/home');  
+          } else {
+              setErrorMessage(response.data.message || 'Login failed. Please try again.');
+          }
+      } catch (error) {
+          console.error('Error logging in:', error);
+          setErrorMessage('An error occurred during login. Please try again.');
+      }
+  };
+  
+    
   // useEffect(() => {
   // const fetchUserProfile = async () => {
   //     try {
@@ -182,9 +167,9 @@ function LoginSignup() {
   //     }
   // }
       
-  const handleSubmit = (event) => {
+  const handleforgotPassword = (event) => {
     event.preventDefault();
-    fetch('https://3c55-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/forgot-password', {
+    fetch('https://17ca-2401-4900-8824-9f2-68c8-d24a-c9cc-5457.ngrok-free.app/api/forgot-password', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -212,7 +197,7 @@ function LoginSignup() {
       };
 
       // const handleloginbtn = () =>{
-    //     if(Email === "" || password === "") 
+    //     if(Email === "" || password === "")
     //     {
     //        alert("All fields are required");
     //     }else{
@@ -264,14 +249,14 @@ function LoginSignup() {
     <div className='underline'>
     </div>
     or
-          { isforgot ?    <form onSubmit={handleSubmit}> <div className='form'>
+          { isforgot ?    <form onSubmit={handleforgotPassword}> <div className='form'>
           {message && <p>{message}</p>}
                 <div className='input'>
                   <input type="email" placeholder='Email id' 
                  id="email"
                  name="email"
-                 value={emails}
-                 onChange={handlemailChange}
+                 value={email}
+                 onChange={handleEmailChange}
                  required />
                 </div>
                 <button className='login' type="submit">Request New Password</button>
@@ -286,14 +271,14 @@ function LoginSignup() {
                   <input type="email" placeholder='Email' 
                   id="email"
                   name="email"
-                  //value={email}
+                  value={email}
                  onChange={handleEmailChange}  />
                 </div>
                 <div className='input'>
                   <input type="password" placeholder='Password' 
                   name='password'
                    id="password"
-                  //value={password}
+                  value={password}
                    onChange={handlePasswordChange}
             />
                 </div>
@@ -307,7 +292,7 @@ function LoginSignup() {
                   Join here!</span></p>
                   </div>
                  </form>  : <div>
-            <form onSubmit={handleregister} >
+            <form onSubmit={handleSubmit} >
           <div className='form'>
           <div className='input'>
                   <input type="text" placeholder='Name'

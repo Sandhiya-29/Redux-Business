@@ -1,0 +1,120 @@
+*{
+    margin:0;
+    padding: auto;
+    font-family: 'Times New Roman', Times, serif;
+}
+.profile{
+    display: flex;
+    justify-content: space-around;
+    background-color: white;
+    margin-top: 40px;
+    flex-wrap: wrap; 
+    margin-left: 0;
+  }
+.profile-container {
+    width: 850px;
+    height: 500px; 
+    background-color: white;
+    box-shadow: 0 7px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+     overflow-y: auto; 
+    overflow-x: hidden;
+    margin-top: 0;
+    padding-top: 0;
+    margin-left:50px;
+}
+  .background{
+    width: 850px;
+    height: 150px;
+    border-radius: 10px; 
+    background-color:white;
+    box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
+}
+ .image-container{
+    position:absolute;
+    top: 155px; 
+    margin-left: 50px;
+    margin-top:0;
+    width:150px;
+    height: 150px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+ } 
+ .profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;  
+  border-radius: 50%;
+  color: rgb(209, 207, 207);
+}
+.details{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+} 
+.user-name{
+  margin-right:70%;
+  margin-top:30px;
+  font-family: 'Times New Roman', Times, serif;
+}
+.user-role{
+  margin-right:70%;
+  color: rgb(113, 113, 113);
+}
+.user-bio{
+  margin-right:70%;
+  color:rgb(133, 132, 132);
+  font-size: 17px;
+}
+.user-location{
+  margin-right: 70%;
+  color:rgb(131, 131, 131);
+  font-size: 16px;
+}
+.user-links{
+  margin-right:70%;
+  text-decoration:none;
+}
+.pencil-icon{
+  margin-top: 10px;
+  margin-left: 90%;
+  font-size: 20px;
+  cursor: pointer;
+}
+.user-number{
+  margin-right:70%;
+  color:rgb(115, 115, 116);
+  font-weight: 700;
+}
+.user-interest{
+  margin-right:70%;
+  color: rgb(131, 131, 131);
+  font-size: 18px;
+}
+.members-2{
+    width: 340px;
+    height: 400px;
+    background-color: white;
+    box-shadow: 0 7px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin-top: 20px;
+    padding-top: 0;
+    margin-left: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+  }  
+  .members-2::-webkit-scrollbar {
+    width: 9px; 
+  }
+  .members-2::-webkit-scrollbar-track{
+    background-color: #d1cfcf;   
+  }
+  .members-2::-webkit-scrollbar-thumb{
+   background-color:rgb(6, 196, 6);
+    border-radius: 1rem; 
+   border: 0.5rem solid transparent;
+  }
