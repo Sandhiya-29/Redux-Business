@@ -31,18 +31,18 @@ const Dashboard = () => {
     useEffect(() => {
       axios.get('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/get-posts')
         .then(response => {
-          setPostsData(response.data); // Assuming the backend returns a list of posts
+          setPostsData(response.data); 
         })
         .catch(error => console.error('Error fetching posts:', error));
     }, []);
    
     const toggleLike = (postId, isLiked) => {
       const url = isLiked ? 'https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/unlike' : '/api/like';
-      axios.put(url, { postId }) // Send postId to backend to handle like/unlike
+      axios.put(url, { postId }) 
         .then(() => {
           setLikedPosts((prevLiked) => ({
             ...prevLiked,
-            [postId]: !prevLiked[postId], // Toggle like state locally
+            [postId]: !prevLiked[postId], 
           }));
         })
         .catch(error => console.error('Error liking/unliking post:', error));

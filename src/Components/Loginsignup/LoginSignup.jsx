@@ -130,25 +130,7 @@ function LoginSignup() {
   };
   
     
-  // useEffect(() => {
-  // const fetchUserProfile = async () => {
-  //     try {
-  //         const token = localStorage.getItem('authToken');
-  //         const res = await axios.get(`https://7a8f-2401-4900-8826-58ee-70bf-993d-a9f6-4030.ngrok-free.app/api/profile`, {
-  //             headers: {
-  //                 Authorization: `Bearer ${token}`,
-  //             },
-  //         });
-  //         console.log('User Profile:', res.data);
-  //     } catch (error) {
-  //         console.error('Error fetching user profile', error);
-  //     }
-  // };
-
-//   fetchUserProfile();
-// }, []); 
-    
- 
+  
     // const handleloginbtn = () =>{
     //     if(email === "" || password === "") 
     //     {

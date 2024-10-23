@@ -13,7 +13,7 @@
   }
 .profile-container {
     width: 850px;
-    height: 500px; 
+    height: 510px; 
     background-color: white;
     box-shadow: 0 7px 12px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
@@ -23,15 +23,26 @@
     padding-top: 0;
     margin-left:50px;
 }
+.profile-container::-webkit-scrollbar {
+  width: 9px; 
+}
+.profile-container::-webkit-scrollbar-track{
+  background-color: #d1cfcf;   
+}
+.profile-container::-webkit-scrollbar-thumb{
+ background-color:rgb(6, 196, 6);
+  border-radius: 1rem; 
+ border: 0.5rem solid transparent;
+}
   .background{
-    width: 850px;
+    width: 860px;
     height: 160px;
-    border-radius: 10px; 
+    border-radius: 5px; 
     box-shadow: 0px 7px 7px rgba(0, 0, 0, 0.1);
 }
  .image-container{
     position:absolute;
-     top: 168px;  
+     top: 170px;  
     margin-left: 50px;
     margin-top:0;
     width:150px;
@@ -52,52 +63,98 @@
   display:flex;
   flex-direction:column;
   gap:5px;
-  
+  margin-top: 0;
 } 
 .user-name{
   margin-right:70%;
-  margin-top:30px;
+  /* margin-top:30px; */
   font-family: 'Times New Roman', Times, serif;
 }
 .user-role{
   margin-right:70%;
-  color: rgb(113, 113, 113);
-  font-size: 16px;
+  color: rgb(131, 131, 131);
+  font-size: 20px;
 }
 .user-bio{
-  margin-right:70%;
-  color:rgb(133, 132, 132);
-  font-size: 17px;
+  margin-right: 80%;
+  font-size: 19px;
+  color: rgb(131, 131, 131);
 }
 .user-location{
   margin-right: 70%;
-  color:rgb(131, 131, 131);
-  font-size: 16px;
+  color:rgb(113, 113, 113);
+  font-size: 18px;
 }
-.user-links{
-  margin-right:70%;
-  text-decoration:none;
+
+.user-info{
+  width:150px;
+  height: 30px;
+  border: 1px solid rgb(6, 196, 6);
+  outline: none;
+  border-radius: 7px;
+  background-color: white;
+  color:rgb(6, 196, 6);
+  font-weight: 800;
+  font-size: 19px;
+  margin-top: 15px;
+  cursor: pointer;
+  margin-left: 30px;
+}
+.user-personal{
+  display:flex;
+  flex-direction: row;
+  gap: 20px;
+  
+}
+.user-interest{
+  margin-top: 15px;
+  width: 150px;
+  height: 30px;
+  border: 1px solid rgb(6, 196, 6);
+  outline: none;
+  border-radius: 7px;
+  color: rgb(6, 196, 6);
+  background-color: white;
+  font-size: 19px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.title{
+  margin-right: 75%;
+  margin-top: 10px;
+  font-size: 18px;
+  font-weight: 800;
+  color: rgb(131, 131, 131);
+}
+.user-idea{
+  margin-right: 75%;
+  font-size: 16px;
+  color: rgb(113, 113, 113);
 }
 .pencil-icon{
-  margin-top: 10px;
+  margin-top:10px;
   margin-left: 90%;
   font-size: 20px;
   cursor: pointer;
 }
-.user-number{
-  margin-right:70%;
-  color:rgb(115, 115, 116);
-  font-weight: 700;
-}
-.user-interest{
-  margin-right:70%;
-  color: rgb(131, 131, 131);
-  font-size: 18px;
-}
 .user-experience{
-   margin-right: 70%;
-   color: rgb(131, 131, 131);
-   font-size: 18px;
+  margin-left: 75%;
+  font-size: 19px;
+  font-weight: 800;
+  color: rgb(113, 113, 113);
+}
+.previous-experience{
+  margin-left: 75%;
+  font-size: 16px;
+  color: rgb(131, 131, 131);
+}
+.about-line{
+border: 0;
+height: 1px;
+background: grey;
+margin-top: 20px;
+width:500px;
+margin-right: 60%;
 }
 .members-2{
     width: 340px;
