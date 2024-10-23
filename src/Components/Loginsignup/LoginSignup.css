@@ -102,8 +102,8 @@ img {
     height: 40px;
     border: 0.5px solid grey;
     border-radius: 18px;
-    font-size: 14px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 800;
     cursor: pointer;
     text-align: center;
     padding-left: 10px;
@@ -123,8 +123,8 @@ img {
     border: 1px solid grey;
     border-radius: 18px;
     margin-top: 20px;
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 800;
     cursor: pointer;
 }
 .underline{
@@ -195,6 +195,12 @@ img {
     cursor: pointer;
     margin-top: 20px;
     margin-left: 30px;
+}
+.eye-icon{
+   position: absolute;
+   margin-left: 48%;
+   top: 20px;
+   color: rgb(112, 111, 111);
 }
 .signup{
     color: rgb(112, 111, 111);

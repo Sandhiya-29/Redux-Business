@@ -3,7 +3,7 @@ import React, {useState} from 'react';
  import zxcvbn from 'zxcvbn';
 import './LoginSignup.css';
  import { BsEye, BsEyeSlash } from 'react-icons/bs';
-import resetpassword from './reset-password-concept-illustration_114360-7896.jpg'
+import resetpassword from './reset-password-concept-illustration_114360-7896.jpg';
 
 
 const ResetPassword = () => {

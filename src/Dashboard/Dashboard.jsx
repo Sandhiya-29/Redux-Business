@@ -12,6 +12,7 @@ const Dashboard = () => {
   const [showInput, setShowInput] = useState(false);
   const [likedPosts, setLikedPosts] = useState({});
    const [modal, setModal]  = useState(false);
+   const [profileSuggestions, setProfileSuggestions] = useState([]);
    const [postsData, setPostsData] = useState([]);
    const [newPost, setNewPost] = useState({
       businessName: '',
@@ -36,18 +37,28 @@ const Dashboard = () => {
         .catch(error => console.error('Error fetching posts:', error));
     }, []);
    
-    const toggleLike = (postId, isLiked) => {
-      const url = isLiked ? 'https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/unlike' : '/api/like';
-      axios.put(url, { postId }) 
-        .then(() => {
-          setLikedPosts((prevLiked) => ({
-            ...prevLiked,
-            [postId]: !prevLiked[postId], 
-          }));
-        })
-        .catch(error => console.error('Error liking/unliking post:', error));
+    const toggleLike = (postId, liked) => {
+      if (liked) {
+        axios.put(`http://localhost:5000/api/like-post/${postId}`)
+          .then(() => {
+            setLikedPosts((prevLikedPosts) => ({
+              ...prevLikedPosts,
+              [postId]: false,
+            }));
+          })
+          .catch(error => console.error('Error unliking post:', error));
+      } else {
+        axios.put(`http://localhost:5000/api/like-post/${postId}`)
+          .then(() => {
+            setLikedPosts((prevLikedPosts) => ({
+              ...prevLikedPosts,
+              [postId]: true,
+            }));
+          })
+          .catch(error => console.error('Error liking post:', error));
+      }
     };
-  
+    
 
    const formmodal = () =>{
       setModal(!modal);
@@ -82,6 +93,20 @@ const Dashboard = () => {
      })
      .catch(error => console.error('Error posting:', error));
  };
+ useEffect(() => {
+ const fetchProfileSuggestions = async () => {
+  try {
+    const res = await axios.get(`http://localhost:5000/api/suggestions`); 
+    setProfileSuggestions(res.data); 
+  } catch (error) {
+    console.error('Error fetching profile suggestions', error);
+  }
+};
+fetchProfileSuggestions(); 
+}, []);
+
+
+
  
   return (
     <div>
@@ -140,81 +165,26 @@ const Dashboard = () => {
         </div>
         <div className='members'>
         <h3 className="profiles">More profiles for you</h3>
-         <div className='suggestion'>
-               <div>
-                  <h2> <FaUserCircle className='user-icon' /></h2>
-                   </div>
-                   
-                   <div>
-              <h3 className='name'>Vishnu</h3>
-                <h4 className='entrepreneur'>Investor</h4>
-                 <p className='description'>Open to Invest</p> 
-                 
-                 <button className="view-profile">View Profile</button>
-            
-              </div>  
-             </div>
-             <hr />
-             <div className='suggestion'>
-               <div>
-                  <h2> <FaUserCircle className='user-icon' /></h2>
-                   </div>
-                   <div>
-              <h3 className='name'>Sanjay</h3>
-                <h4 className='entrepreneur'>Investor</h4>
-                 <p className='description'>Open to Invest</p> 
-                 <button className="view-profile">View Profile</button>
-              </div> 
-             </div>
-             <hr />
-             <div className='suggestion'>
-               <div>
-                  <h2> <FaUserCircle className='user-icon' /></h2>
-                   </div>
-                   
-                   <div>
-              <h3 className='name'>Anu</h3>
-                <h4 className='entrepreneur'>Investor</h4>
-                 <p className='description'>Open to Invest</p> 
-                 
-                 <button className="view-profile">View Profile</button>
-            
+          {profileSuggestions.length > 0 ? (
+            profileSuggestions.map((profile, index) => (
+              <div className='suggestion' key={index}>
+                <div>
+                  <h2><FaUserCircle className='user-icon' /></h2>
+                </div>
+                <div>
+                  <h3 className='name'>{profile.fullName}</h3>
+                  <h4 className='entrepreneur'>{profile.role}</h4>
+                  <p className='description'>{profile.bio || 'Open to Invest'}</p>
+                  <button className="view-profile">View Profile</button>
+                </div>
+                <hr />
               </div>
-              
-                   
-             </div>
-             <hr />
-             <div className='suggestion'>
-               <div>
-                  <h2> <FaUserCircle className='user-icon' /></h2>
-                   </div>
-                   
-                   <div>
-              <h3 className='name'>Abi</h3>
-                <h4 className='entrepreneur'>Investor</h4>
-                 <p className='description'>Open to Invest</p> 
-                 
-                 <button className="view-profile">View Profile</button>
-            
-              </div>
-              
-                   
-             </div>
-             <hr />
-             <div className='suggestion'>
-               <div>
-                  <h2> <FaUserCircle className='user-icon' /></h2>
-                   </div>
-                   
-                   <div>
-              <h3 className='name'>Vikram</h3>
-                <h4 className='entrepreneur'>Investor</h4>
-                 <p className='description'>Open to Invest</p> 
-                 
-                 <button className="view-profile">View Profile</button>
-            
-              </div>    
-             </div>
+            ))
+          ) : (
+            <p>No profiles to suggest</p>
+          )}
+             
+             
              
         </div>
    </div>

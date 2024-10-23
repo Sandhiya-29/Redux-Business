@@ -4,7 +4,7 @@ import Header from './Header';
 import './Profile.css';
 import { FaUserCircle } from 'react-icons/fa';
 import { LuPencil } from "react-icons/lu";
-import background from './360_F_172318263_046YEZYCK2hDGJR6X6lm4Gbaxar65Rew.jpg';
+import background from '../Assests/360_F_172318263_046YEZYCK2hDGJR6X6lm4Gbaxar65Rew.jpg';
 
 const Profile = () => {
   const [userData, setUserData] = useState({});

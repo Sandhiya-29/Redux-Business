@@ -4,7 +4,7 @@ import './Multistep.css';
 import { FaUser } from "react-icons/fa";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { MdBusinessCenter } from "react-icons/md";
-import collab from './Collaboration-bro.png';
+import collab from '../Assests/Collaboration-bro.png';
  import axios from 'axios';
  import { useNavigate } from 'react-router-dom';
 

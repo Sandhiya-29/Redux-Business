@@ -1,24 +1,23 @@
 import React, {useState } from 'react';
 import './LoginSignup.css';
 import vision from './images.png';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import {useNavigate} from "react-router-dom";
 import axios from 'axios';
   
 function LoginSignup() {
-  
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword2,setShowPassword2] = useState(false);
     const navigate = useNavigate("");
-    //login
     const [email,setEmail] = useState("");
     const [password, setPassword] = useState("");
-    //forgotpassword
-    
    const[action ,setAction] = useState(true);
     const[isforgot, setForgot] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [message, setMessage] = useState('');
-    //registe' 
     // const [name, setName] = useState('');
     // const [mail, setmail]  = useState("");
     // const [passwords, setPasswords] = useState("");
@@ -31,7 +30,14 @@ function LoginSignup() {
     
     );
 
-    
+     const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
+    };
+      
+    const togglePasswordVisibility2 = () => {
+      setShowPassword2(!showPassword2);
+  };
+
 
     const handleEmailChange = (event) => {
       setEmail(event.target.value);
@@ -257,12 +263,18 @@ function LoginSignup() {
                  onChange={handleEmailChange}  />
                 </div>
                 <div className='input'>
-                  <input type="password" placeholder='Password' 
+                  <input  type={showPassword ? "text" : "password"}
+                   placeholder='Password' 
                   name='password'
                    id="password"
                   value={password}
                    onChange={handlePasswordChange}
             />
+             {password && (
+                            <span className="eye-icon" onClick={togglePasswordVisibility}>
+                                {showPassword ? <BsEyeSlash /> : <BsEye />}
+                            </span>
+                        )}
                 </div>
                 <button className='login' type='submit'>Login</button>
 
@@ -293,12 +305,17 @@ function LoginSignup() {
                  required/>
                 </div>
                 <div className='input'>
-                  <input type="password" placeholder='Password' 
+                  <input type={showPassword2 ? "text" : "password"} placeholder='Password' 
                     id='password'
                     name='password'
                    value={register.password}
                     onChange={handleInputChange}
                     required/>
+                    {register.password && (
+                            <span className="eye-icon" onClick={togglePasswordVisibility2}>
+                                {showPassword2 ? <BsEyeSlash /> : <BsEye />}
+                            </span>
+                        )}
                 </div>
                 <button className='login' type='submit'>Sign Up</button>
                 <p className='signup'>Already have an account ?<span onClick={handlesignup}>Login</span></p>
