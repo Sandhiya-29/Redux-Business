@@ -1,12 +1,13 @@
-import React from 'react'
+import React from 'react';
 import { FaUserCircle, FaBell, FaCog } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import './Profile.jsx';
+
 
 const Header = () => {
    
   const navigate = useNavigate("");
-
-  const handlenavigate = () => {
+  const handleprofile = () => {
     navigate("/Profile");
   }
   
@@ -16,9 +17,9 @@ const Header = () => {
       <div className="header-icons">
         <FaBell className="icon" />
         <FaCog className="icon" />
-        <FaUserCircle className="icon" onClick={handlenavigate}  />
+        <FaUserCircle className="icon" onClick={handleprofile}  />
       </div>
-    </div>
+    </div>               
   </header>
   )
 }

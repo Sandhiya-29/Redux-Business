@@ -11,8 +11,9 @@ import collab from '../Assests/Collaboration-bro.png';
 
 function Home(){
 
-    const [formData, setFormData] = useState({
-        fullName: '',
+    const [formData, setFormData] = useState(
+        {
+          fullName: '',
         email: '',
         phoneNumber: '',
         location: '',
@@ -26,9 +27,16 @@ function Home(){
         investmentFocus: '',
         investmentRange: '',
     investorAreaofInterest: '',
-    InvestorSocialMediaLinks: '',
-      });
-    
+    InvestorSocialMediaLinks: '',}
+      );
+        
+      const handleInputChange = (e) => {
+        setFormData({
+          ...formData,
+          [e.target.name]: e.target.value,
+        });
+      };
+
       const navigate = useNavigate("")
 
       const handlelog = () => {
@@ -38,8 +46,9 @@ function Home(){
       const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const response = await axios.post('http://localhost:5000/update-details', formData);
-          alert(response.data.message); 
+       const response = await axios.put('https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/update-profile', formData);
+          alert(response.data.message);
+       navigate("/Dashboard");
         } catch (error) {
           console.error('There was an error submitting the form!', error);
         }
@@ -128,41 +137,22 @@ const prevStep = () => {
        <form onSubmit={handleSubmit} >
              <div className='form'> 
           {step === 1 && (
-                        <>
-                            <div className='input'>
-                                <input 
-                                 onChange={(e) => setFormData({...formData, fullName:e.target.value})}  
-                                value={formData.fullName}
-                                type="text"
-                                 placeholder='Full Name'
-                                 id ='fullName'
-                                 required/>
-                            </div>
-                            <div className='input'>
-                                <input 
-                                 onChange={(e) => setFormData({...formData, email:e.target.value})}
-                                 value={formData.email}
-                                 type="email"
-                                 placeholder='Email Address'
-                                 id='email'
-                                 required />
-                            </div>
-                            <div className='input'>
-                                <input
-                                 onChange={(e) => setFormData({...formData, phoneNumber:e.target.value})}
-                                 value={formData.phoneNumber}
-                                  type="text"
-                                   placeholder='Phone Number'
-                                   id ='phoneNumber'
-                                 required />
-                            </div>
-                            <div className='input'>
-                                <input 
-                                onChange={(e) => setFormData({...formData, location:e.target.value})} 
-                                value={formData.location}
-                                type="text" 
-                                placeholder='Location'
-                                 id='location'
+     <>
+       <div className='input'>
+<input type="text" placeholder='Full Name' name="name" 
+value={formData.fullName}  onChange={(e) => setFormData({...formData, fullName:e.target.value})}   required/>
+      </div>
+      <div className='input'>
+<input type="email"  placeholder='Email Address' name="email" value={formData.email}
+onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
+   </div>
+  <div className='input'>
+<input type="text" placeholder='Phone Number' name="phone number" value={formData.phoneNumber}
+  onChange={(e) => setFormData({...formData, phoneNumber:e.target.value})}   required />
+</div>
+   <div className='input'>
+<input type="text" placeholder='Location' name="location" value={formData.location} 
+ onChange={(e) => setFormData({...formData, location:e.target.value})}  
                                 required/>
                             </div>
                         </>
@@ -173,7 +163,7 @@ const prevStep = () => {
           <select className='select'
             name='experience'
             value={formData.experience}
-            onChange={(e) => setFormData({...formData, experience:e.target.value})}
+            onChange={(e) => setFormData({...formData, experience:e.target.value})}  
           required>
             <option value=''>Experience</option>
             <option value='Fresher'>Fresher</option>
@@ -184,15 +174,14 @@ const prevStep = () => {
                             <div className='input'>
                                 <input type="text" placeholder='Years of Experience'
                                  value={formData.years}
-                                 onChange={(e) => setFormData({...formData, years:e.target.value})} 
+                 onChange={(e) => setFormData({...formData, years:e.target.value})}  
                                 required/>
                             </div>
                             <div className='input'>
                                 <input type="text"
                                  placeholder='Bio'
                                  value={formData.bio}
-                                 onChange={(e) => 
-                                  setFormData({...formData, bio:e.target.value})}
+                                 onChange={(e) => setFormData({...formData, bio:e.target.value})}  
                                  required />
                             </div>
                         </>
@@ -202,26 +191,25 @@ const prevStep = () => {
                             <div className='input'>
                                 <input type="text" placeholder='Business Title'
                                  value={formData.businessTitle}
-                            onChange={(e) => setFormData({...formData, businessTitle:e.target.value})}
+                                 onChange={(e) => setFormData({...formData, businessTitle:e.target.value})}  
                                  required />
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Business Idea'
                                 value={formData.businessIdea}
-                                onChange={(e) => setFormData({...formData, businessIdea:e.target.value})}
+                                onChange={(e) => setFormData({...formData, businessIdea:e.target.value})}  
                                  required />
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Business Area Of Interest'
                                 value={formData.businessAreaOfInterest}
-                                onChange={(e) => setFormData
-                                  ({...formData, businessAreaOfInterest:e.target.value})}
+                                onChange={(e) => setFormData({...formData, businessAreaOfInterest:e.target.value})}  
                                 required/>
                             </div>
                              <div className='input'>
                                 <input type="text" placeholder='Fund Needed'
                                  value={formData.fundingNeeded}
-                                 onChange={(e) => setFormData({...formData, fundingNeeded:e.target.value})}
+                                 onChange={(e) => setFormData({...formData, fundingNeeded:e.target.value})}  
                                   required/>
                             </div>
                         </>
@@ -240,7 +228,7 @@ const prevStep = () => {
                     </button>
                 )}
                 {step === 3 && (
-                    <button className='submit-btn'>
+                    <button className='submit-btn' type="submit">
                         Submit
                     </button>
                 )}
@@ -273,25 +261,25 @@ const prevStep = () => {
                             <div className='input'>
                                 <input type="text" placeholder='Full Name'
                                 value={formData.fullName}
-                                onChange={(e) => setFormData({...formData, fullName:e.target.value})}
+                                onChange={handleInputChange}
                                  required/>
                             </div>
                             <div className='input'>
                                 <input type="email" placeholder='Email Address' 
                                 value={formData.email}
-                                onChange={(e) => setFormData({...formData, email:e.target.value})}
+                                onChange={handleInputChange}
                                 required/>
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Phone Number'
                                 value={formData.phoneNumber}
-                                onChange={(e) => setFormData({...formData, phoneNumber:e.target.value})}
+                                onChange={handleInputChange}
                                 required/>
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Location'
                                 value={formData.location} 
-                                onChange={(e) => setFormData({...formData, location:e.target.value})}
+                                onChange={handleInputChange}
                                required />
                             </div>
                         </>
@@ -303,21 +291,21 @@ const prevStep = () => {
                             type="text" 
                            placeholder='Investment Focus'
                            value={formData.investmentFocus}
-                           onChange={(e) => setFormData({...formData, investmentFocus:e.target.value})}
+                           onChange={handleInputChange}
                             required/>
                        
                     </div>
                             <div className='input'>
                                 <input type="text" placeholder='Investment Range'
                                 value={formData.investmentRange}
-                                onChange={(e) => setFormData({...formData, investmentRange:e.target.value})}
+                                onChange={handleInputChange}
                                 required/>
                             </div>
                             <div className='input'>
           <select className ="select"
             name='previousInvestmentExperience'
             value={formData.previousInvestmentExperience}
-            onChange={(e) => setFormData({...formData, previousInvestmentExperience:e.target.value})}
+            onChange={handleInputChange}
           required>
             <option value=''>Previous Investment Experience</option>
             <option value='Yes'>Yes</option>
@@ -327,13 +315,13 @@ const prevStep = () => {
                              <div className='input'>
                                 <input type="text" placeholder='Area of Interest'
                                 value={formData.investorAreaofInterest}
-                                onChange={(e) => setFormData({...formData, investorAreaofInterest:e.target.value})}
+                                onChange={handleInputChange}
                                required />
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Social Media Link'
                                 value={formData.InvestorSocialMediaLinks}
-                                onChange={(e) => setFormData({...formData, InvestorSocialMediaLinks:e.target.value})}
+                                onChange={handleInputChange}
                                required />
                             </div>
                         </>

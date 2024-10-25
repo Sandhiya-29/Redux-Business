@@ -5,17 +5,20 @@ import './Profile.css';
 import { FaUserCircle } from 'react-icons/fa';
 import { LuPencil } from "react-icons/lu";
 import background from '../Assests/360_F_172318263_046YEZYCK2hDGJR6X6lm4Gbaxar65Rew.jpg';
+import { IoClose } from "react-icons/io5";
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
   const [loading, setLoading] = useState(true);
   const [profileSuggestions, setProfileSuggestions] = useState([]);
+  const [modal, setModal] = useState(false);
+  const [interest, setInterest]  =  useState(false);
 
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
         const token = localStorage.getItem('authToken'); 
-        const res = await axios.get(`http://localhost:5000/api/profile`, {
+        const res = await axios.get(`https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -30,22 +33,33 @@ const Profile = () => {
 
     const fetchProfileSuggestions = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/suggestions`); 
+        const res = await axios.get(`https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/suggestions`); 
         setProfileSuggestions(res.data); 
       } catch (error) {
         console.error('Error fetching profile suggestions', error);
       }
     };
-
     fetchUserProfile();
     fetchProfileSuggestions(); 
+    
   }, []);
 
   if (loading) {
     return <div>Loading...</div>;
   }
+       
+    const contactinfo = () => {
+      setModal(!modal);
 
-
+      if(modal) {
+        document.body.classList.add("active-modal");
+      }else{
+        document.body.classList.remove("active-modal");
+      }
+    }
+      const intresetinfo = () => {
+        setInterest(!interest)
+      }
   return (
     <div>
       <div>
@@ -80,9 +94,9 @@ const Profile = () => {
      <p className="user-location">{userData.details?.location || 'Location not provided'}</p>
           </div>
           <div className='user-personal'>
-            <button className="user-info">Contact info</button>
+            <button className="user-info" onClick={contactinfo}>Contact info</button>
             <div>
-              <button className='user-interest'>Interest</button>
+              <button className='user-interest' onClick={intresetinfo}>Interest</button>
             </div>
           </div>
           <hr className='about-line' />
@@ -94,6 +108,50 @@ const Profile = () => {
             <p className='user-idea'>{userData.details?.businessIdea || 'Business Idea'}</p>
           </div>
         </div>
+        {modal && <div className='contact-modal'>
+             <div className='overlay' onClick={contactinfo}></div>
+        <div className='contact-info'>
+          <div className="name-close">
+           <h2>your profile link</h2>
+               <IoClose className='close' onClick={contactinfo} />
+           </div>
+           <div className='profile-link'>
+            <h3 className="link">Link</h3>
+            <LuPencil className='edit-icon' /> 
+            </div>
+            <div className="contact-email">
+              <h2>Email</h2>
+             </div>
+             <h3 className="email-id">{userData.details?.email || 'Email not provided'}</h3>
+            <h2 className='contact-number'>Phone Number</h2>
+            <h3 className="number">{userData.details?.phoneNumber || 'Number not provided'}</h3>
+            <h2 className='social-links'>Social Media Links</h2>
+             <div className='social-media'>
+              <h3>{userData.details?.BusinessSocialMediaLinks || 'It is not provided'}</h3>
+             </div>
+             
+           </div>
+         
+          </div>}
+            
+          {interest && <div className='contact-modal'>
+             <div className='overlay' onClick={intresetinfo}></div>
+        <div className='contact-info'>
+          <div className="name-close">
+           <h2>Area of interest</h2>
+               <IoClose className='close' onClick={intresetinfo} />
+           </div>
+           <div className='profile-link'>
+            <h3 className="interest">{userData.details?.areaOfInterest || 'It is not provided'}</h3>
+            <LuPencil className='edit-icon' /> 
+            </div>
+            <div className="contact-email">
+              <h2>Funding Needed</h2>
+             </div>
+             <h3 className="email-id">{userData.details?.fundingNeeded || 'It is not provided'}</h3>
+           </div>
+          </div>}
+
         <div className='members-2'>
           <h3 className="profiles">More profiles for you</h3>
           {profileSuggestions.length > 0 ? (
@@ -119,5 +177,4 @@ const Profile = () => {
     </div>
   );
 };
-
 export default Profile;

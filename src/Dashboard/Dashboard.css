@@ -262,7 +262,7 @@ body.active-modal {
     position: fixed;
  } 
 .overlay{
-     background: rgba(49,49,49,0.8);  
+     background: rgba(124, 124, 124, 0.8);  
 }
 .form-content{
   position: absolute;
@@ -462,7 +462,6 @@ hr {
   .input input,
   .input textarea{
       width: 380px;
-     margin-left: 20px;
   }
 }
 .post-container {
