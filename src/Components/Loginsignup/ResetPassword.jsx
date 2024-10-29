@@ -4,13 +4,13 @@ import React, {useState} from 'react';
 import './LoginSignup.css';
  import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import resetpassword from './reset-password-concept-illustration_114360-7896.jpg';
+import axios from 'axios';
 
 
 const ResetPassword = () => {
     const { token } = useParams();
     const [password, setPassword] = useState('');
      const [showPassword, setShowPassword] = useState(false);
-    const [confirmPassword, setConfirmPassword] = useState('');
     const [message, setMessage] = useState('');
     const [passwordStrength, setPasswordStrength] = useState(0);
     const navigate = useNavigate();
@@ -22,10 +22,6 @@ const ResetPassword = () => {
         setPasswordStrength(evaluation.score);
     };
 
-    const handleConfirmPasswordChange = (event) => {
-        setConfirmPassword(event.target.value);
-    };
-
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
@@ -33,27 +29,19 @@ const ResetPassword = () => {
     const validatePassword = (password) => {
         const minLength = 8;
         const hasUpperCase = /[A-Z]/.test(password);
-        const hasLowerCase = /[a-z]/.test(password);
         const hasNumber = /[0-9]/.test(password);
         const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-        return password.length >= minLength && hasUpperCase && hasLowerCase && hasNumber && hasSpecialChar;
+        return password.length >= minLength && hasUpperCase &&  hasNumber && hasSpecialChar;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
-        if (password !== confirmPassword) {
-            setMessage('Passwords do not match');
-            return;
-        }
-
         if (!validatePassword(password)) {
-            setMessage('Password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, one number, and one special character.');
+            alert('Password must be at least 8 characters long one uppercase ,one lower case, one number, and one special character.');
             return;
         }
-
         try {
-            const response = await fetch(`https://4963-2401-4900-8826-58ee-f473-2bb4-f83b-58b2.ngrok-free.app/api/reset-password/${token}`, {
+            const response = await axios.post(`https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/reset-password/${token}`,{ password }, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -76,13 +64,11 @@ const ResetPassword = () => {
             setMessage('An error occurred. Please try again.');
         }
     };
-
     return (
         <div className="login-container">
             <div>
   <img src={resetpassword} alt="vision" width="400px" height="200px"/>
   </div>
-          
             <div className='signup-form'>
         <h1 className='heading'>Set New Password</h1>
        <br />
@@ -91,7 +77,7 @@ const ResetPassword = () => {
                     <div className="form">
                        <div className='input'>
                         <input
-                            type= {showPassword ? "text" : "password"}
+                           type={showPassword ? "text" : "password"}
                             id="password"
                             name="password"
                             placeholder='New Password'
@@ -101,36 +87,17 @@ const ResetPassword = () => {
                         />
                          </div>
                          {password && (
-                            <span className="eye-icon" onClick={togglePasswordVisibility}>
+                            <span className='pass-icon' onClick={togglePasswordVisibility}>
                                 {showPassword ? <BsEyeSlash /> : <BsEye />}
                             </span>
-                        )} 
+                        )}
                          {password && (
                             <div className="password-strength-bar">
                                 <div className={`strength-fill strength-${passwordStrength}
                                 `} />
                             </div>
-                        )} 
-                   
-                    <div className="input">
-                        <input
-                            type=
-                             {showPassword ? "text" : "password"}
-                            id="confirm-password"
-                            name="confirm-password"
-                            value={confirmPassword}
-                            onChange={handleConfirmPasswordChange}
-                            required
-                            placeholder='Confirm Password'
-                        />
-                         {confirmPassword && (
-                            <span className="eye-icon" onClick={togglePasswordVisibility}>
-                                {showPassword ? <BsEyeSlash /> : <BsEye />}
-                            </span>
-                        )} 
-                    </div>
-                   
-                    <button type="submit" className='login'>Reset PASSWORD</button>
+                        )}
+                    <button type="submit" className='login'>Reset Password</button>
                     <br /> <br />
                     <a href="/" className="forgot-password">
                     Back to login</a>

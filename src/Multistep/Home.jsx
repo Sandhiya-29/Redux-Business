@@ -42,18 +42,47 @@ function Home(){
       const handlelog = () => {
             navigate('/');
       }
-
+      
+      // const handleSubmit = async (e) => {
+      //   e.preventDefault();
+      //   try {
+      //     const token = localStorage.getItem('token'); 
+      //     const response = await axios.put('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/update-profile',formData, 
+      //       {
+      //         headers: {
+      //           Authorization: `Bearer ${token}`, 
+      //         },
+      //         params: {
+      //           role: formData.role, 
+      //         }
+      //       }
+      //     );
+    
+      //     if (response.status === 200) {
+      //       alert("Profile updated successfully");
+      //       navigate('/Dashboard'); 
+      //     }
+      //   } catch (error) {
+      //     console.error("Error updating profile:", error);
+      //     alert("Failed to update profile.");
+      //   }
+      // };
+      
       const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = localStorage.getItem('token');
+        const payload = { ...formData, role: isretailer ? "Entrepreneur" : "Investor" };
+      
         try {
-       const response = await axios.put('https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/update-profile', formData);
-          alert(response.data.message);
-       navigate("/Dashboard");
+          const response = await axios.put('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/update-profile', payload, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          if (response.status === 200) navigate('/Dashboard');
         } catch (error) {
-          console.error('There was an error submitting the form!', error);
+          console.error("Error:", error);
+          alert("Profile update failed.");
         }
       };
-
    
    const [isretailer, setRetailer] = useState(false);
    const [action , setAction] = useState(true);
@@ -74,11 +103,14 @@ function Home(){
   const totalSteps = 3
 
   const nextStep = () => {
-  // if(fullName === "" || email === "" || phoneNumber === "" || location === ""){
-  //   alert("All fields required!");
-  // }else{
-    setStep(prevStep => (prevStep < 3 ? prevStep + 1 : prevStep));
-  // }
+    if (formData.fullName && formData.email && formData.phoneNumber && formData.location) {
+      setStep((prevStep) => prevStep + 1);
+    } else {
+      alert("Please fill in all required fields.");
+    }
+  
+    // setStep(prevStep => (prevStep < 3 ? prevStep + 1 : prevStep));
+  
 };
 
 // const nextStep1 = () => {
@@ -139,20 +171,20 @@ const prevStep = () => {
           {step === 1 && (
      <>
        <div className='input'>
-<input type="text" placeholder='Full Name' name="name" 
-value={formData.fullName}  onChange={(e) => setFormData({...formData, fullName:e.target.value})}   required/>
+<input type="text" placeholder='Full Name' name="fullName" 
+value={formData.fullName}  onChange={handleInputChange}   required/>
       </div>
       <div className='input'>
 <input type="email"  placeholder='Email Address' name="email" value={formData.email}
-onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
+onChange={handleInputChange}  required />
    </div>
   <div className='input'>
-<input type="text" placeholder='Phone Number' name="phone number" value={formData.phoneNumber}
-  onChange={(e) => setFormData({...formData, phoneNumber:e.target.value})}   required />
+<input type="text" placeholder='Phone Number' name="phoneNumber" value={formData.phoneNumber}
+  onChange={handleInputChange}   required />
 </div>
    <div className='input'>
 <input type="text" placeholder='Location' name="location" value={formData.location} 
- onChange={(e) => setFormData({...formData, location:e.target.value})}  
+ onChange={handleInputChange}  
                                 required/>
                             </div>
                         </>
@@ -163,7 +195,7 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
           <select className='select'
             name='experience'
             value={formData.experience}
-            onChange={(e) => setFormData({...formData, experience:e.target.value})}  
+            onChange={handleInputChange}  
           required>
             <option value=''>Experience</option>
             <option value='Fresher'>Fresher</option>
@@ -173,15 +205,17 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
                         
                             <div className='input'>
                                 <input type="text" placeholder='Years of Experience'
+                                name='years'
                                  value={formData.years}
-                 onChange={(e) => setFormData({...formData, years:e.target.value})}  
+                 onChange={handleInputChange}  
                                 required/>
                             </div>
                             <div className='input'>
                                 <input type="text"
                                  placeholder='Bio'
+                                 name='bio'
                                  value={formData.bio}
-                                 onChange={(e) => setFormData({...formData, bio:e.target.value})}  
+                                 onChange={handleInputChange}  
                                  required />
                             </div>
                         </>
@@ -190,26 +224,30 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
                         <>
                             <div className='input'>
                                 <input type="text" placeholder='Business Title'
+                                name='businessTitle'
                                  value={formData.businessTitle}
-                                 onChange={(e) => setFormData({...formData, businessTitle:e.target.value})}  
+                   onChange={handleInputChange}  
                                  required />
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Business Idea'
+                                name='businessIdea'
                                 value={formData.businessIdea}
-                                onChange={(e) => setFormData({...formData, businessIdea:e.target.value})}  
+                   onChange={handleInputChange}  
                                  required />
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Business Area Of Interest'
+                                name='businessAreaOfInterest'
                                 value={formData.businessAreaOfInterest}
-                                onChange={(e) => setFormData({...formData, businessAreaOfInterest:e.target.value})}  
+                                onChange={handleInputChange}  
                                 required/>
                             </div>
                              <div className='input'>
                                 <input type="text" placeholder='Fund Needed'
+                                name='fundingNeeded'
                                  value={formData.fundingNeeded}
-                                 onChange={(e) => setFormData({...formData, fundingNeeded:e.target.value})}  
+                               onChange={handleInputChange}  
                                   required/>
                             </div>
                         </>
@@ -260,24 +298,28 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
                         <>
                             <div className='input'>
                                 <input type="text" placeholder='Full Name'
+                                name="fullName"
                                 value={formData.fullName}
                                 onChange={handleInputChange}
                                  required/>
                             </div>
                             <div className='input'>
-                                <input type="email" placeholder='Email Address' 
+                                <input type="email" placeholder='Email Address'
+                                name='email' 
                                 value={formData.email}
                                 onChange={handleInputChange}
                                 required/>
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Phone Number'
+                                name='phoneNumber'
                                 value={formData.phoneNumber}
                                 onChange={handleInputChange}
                                 required/>
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Location'
+                                name='location'
                                 value={formData.location} 
                                 onChange={handleInputChange}
                                required />
@@ -290,6 +332,7 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
                         <input 
                             type="text" 
                            placeholder='Investment Focus'
+                           name='investmentFocus'
                            value={formData.investmentFocus}
                            onChange={handleInputChange}
                             required/>
@@ -297,6 +340,7 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
                     </div>
                             <div className='input'>
                                 <input type="text" placeholder='Investment Range'
+                                name="investmentRange"
                                 value={formData.investmentRange}
                                 onChange={handleInputChange}
                                 required/>
@@ -314,12 +358,14 @@ onChange={(e) => setFormData({...formData, email:e.target.value})}  required />
         </div>
                              <div className='input'>
                                 <input type="text" placeholder='Area of Interest'
+                                name="investorAreaofInterest"
                                 value={formData.investorAreaofInterest}
                                 onChange={handleInputChange}
                                required />
                             </div>
                             <div className='input'>
                                 <input type="text" placeholder='Social Media Link'
+                                name='InvestorSocialMediaLinks'
                                 value={formData.InvestorSocialMediaLinks}
                                 onChange={handleInputChange}
                                required />

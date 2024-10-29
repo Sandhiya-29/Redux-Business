@@ -30,7 +30,7 @@ const Dashboard = () => {
     });
    
     useEffect(() => {
-      axios.get('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/get-posts')
+      axios.get(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/get-posts`)
         .then(response => {
           setPostsData(response.data); 
         })
@@ -39,7 +39,7 @@ const Dashboard = () => {
    
     const toggleLike = (postId, liked) => {
       if (liked) {
-        axios.put(`http://localhost:5000/api/like-post/${postId}`)
+        axios.put(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/like-post/${postId}`)
           .then(() => {
             setLikedPosts((prevLikedPosts) => ({
               ...prevLikedPosts,
@@ -48,7 +48,7 @@ const Dashboard = () => {
           })
           .catch(error => console.error('Error unliking post:', error));
       } else {
-        axios.put(`http://localhost:5000/api/like-post/${postId}`)
+        axios.put(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/like-post/${postId}`)
           .then(() => {
             setLikedPosts((prevLikedPosts) => ({
               ...prevLikedPosts,
@@ -82,10 +82,10 @@ const Dashboard = () => {
  };
 
  const handlePostSubmit = () => {
-   axios.post('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/post', newPost)
+   axios.post('https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/post', newPost)
      .then(() => {
        formmodal();
-       axios.get('https://0805-2401-4900-8826-58ee-cda7-71f2-b230-a4ee.ngrok-free.app/api/get-posts') // Re-fetch posts after new post
+       axios.get('https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/get-posts') // Re-fetch posts after new post
        .then(response => {
          console.log(response.data); 
          setPostsData(response.data);
@@ -96,7 +96,7 @@ const Dashboard = () => {
  useEffect(() => {
  const fetchProfileSuggestions = async () => {
   try {
-    const res = await axios.get(`http://localhost:5000/api/suggestions`); 
+    const res = await axios.get(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/suggestions`); 
     setProfileSuggestions(res.data); 
   } catch (error) {
     console.error('Error fetching profile suggestions', error);
@@ -105,9 +105,6 @@ const Dashboard = () => {
 fetchProfileSuggestions(); 
 }, []);
 
-
-
- 
   return (
     <div>
    <div>

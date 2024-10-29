@@ -4,7 +4,7 @@ import vision from './images.png';
 import { FaFacebookF } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import {BsEye, BsEyeSlash} from "react-icons/bs"
+import {BsEye, BsEyeSlash} from "react-icons/bs";
 import axios from 'axios';
 
 function LoginSignup() {
@@ -14,6 +14,7 @@ function LoginSignup() {
   const [action, setAction] = useState(true);
   const [isForgot, setIsForgot] = useState(false);
   const [message, setMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2,setShowPassword2] = useState(false);
 
@@ -36,18 +37,18 @@ function LoginSignup() {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = `https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/auth/google/callback`;
+    window.location.href = `https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/auth/google/callback`;
   };
 
   const handleFacebookLogin = () => {
-    window.location.href = 'https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/auth/facebook/callback';
+    window.location.href = 'https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/auth/facebook/callback';
   };
 
 
   const fetchProtectedData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/protected-route', {
+      const response = await axios.get('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/protected-route', {
         headers: {
           Authorization: token,  
         },
@@ -60,11 +61,11 @@ function LoginSignup() {
     }
   };
   
-  
+  //Login
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/login', {
+      const response = await axios.post('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/login', {
         email,
         password,
       }, {
@@ -85,10 +86,11 @@ function LoginSignup() {
     }
   };
 
+  //Register
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/register', register);
+      await axios.post('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/register', register);
       setMessage('Registration successful!');
       navigate('/');
     } catch (error) {
@@ -96,21 +98,33 @@ function LoginSignup() {
     }
   };
 
-  const handleForgotPassword = (event) => {
+  //forgot password
+  const handleForgotPassword = async(event) => {
     event.preventDefault();
-    try{
-    axios.post('https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/forgot-password', { email })
-      .then(response => {
-        if (response.data.success) {
-          navigate('/ResetPassword');
+    setMessage('');
+    setErrorMessage('');
+    try {
+        const response = await axios.post('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/forgot-password', { email }, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok && data.success) {
+            setMessage('Password reset email has been resent');
+            navigate('/ResetPassword');
         } else {
-          setMessage(response.data.message || 'Password reset failed');
+            setErrorMessage(data.message || 'Failed to resend email');
         }
-      })
-    }catch(error){
-        setMessage('An error occurred. Please try again.', error);
-  };
-  }
+    } catch (error) {
+        console.error('Error:', error);
+        setErrorMessage('An error occurred. Please try again.');
+    }
+};
   
   const handleSignupToggle = () => {
     setAction(!action);
@@ -125,7 +139,7 @@ function LoginSignup() {
     setIsForgot(false);
     setAction(true);
   };
-
+      
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
 };
@@ -155,7 +169,8 @@ const togglePasswordVisibility2 = () => {
         {isForgot ? (
           <form onSubmit={handleForgotPassword}>
             <div className='form'>
-              
+              {message && <p>{message}</p>}
+              {errorMessage && <p className="error-message">{errorMessage}</p>}
               <div className='input'>
                 <input type="email" placeholder='Email' value={email} onChange={handleEmailChange} required />
               </div>
@@ -171,14 +186,14 @@ const togglePasswordVisibility2 = () => {
                 <input type="email" placeholder='Email' value={email} onChange={handleEmailChange} required />
               </div>
               <div className='input'>
-                <input type={showPassword ? "text" : "password"} placeholder='Password'
-                 value={password} onChange={(e) => setPassword(e.target.value)} required />
-                 {password && (
+                <input type={showPassword ? "text" : "password"}
+                 placeholder='Password' value={password}
+                  onChange={(e) => setPassword(e.target.value)} required />
+                  {password && (
                             <span className="eye-icon" onClick={togglePasswordVisibility}>
                                 {showPassword ? <BsEyeSlash /> : <BsEye />}
                             </span>
                         )}
-
               </div>
               <button className='login' type='submit'>Login</button>
               <div className='forgot-password'>
@@ -191,19 +206,17 @@ const togglePasswordVisibility2 = () => {
         ) : (
           <form onSubmit={handleSubmit}>
             <div className='form'>
-            {message && <p>{message}</p>}
               <div className='input'>
-                <input type="text" placeholder='Name' name='name' 
-                value={register.name} onChange={handleInputChange} required />
+                <input type="text" placeholder='Name' name='name' value={register.name} onChange={handleInputChange} required />
               </div>
               <div className='input'>
- <input type="email" placeholder='Email' name='email' 
- value={register.email} onChange={handleInputChange} required />
+                <input type="email" placeholder='Email' name='email' value={register.email} onChange={handleInputChange} required />
               </div>
               <div className='input'>
-          <input type={showPassword2 ? "text" : "password"} placeholder='Password' name='password'
-           value={register.password} onChange={handleInputChange} required />
-           {register.password && (
+                <input type={showPassword2 ? "text" : "password"} 
+                 placeholder='Password' name='password' value={register.password}
+                  onChange={handleInputChange} required />
+                   {register.password && (
                             <span className="eye-icon" onClick={togglePasswordVisibility2}>
                                 {showPassword2 ? <BsEyeSlash /> : <BsEye />}
                             </span>
