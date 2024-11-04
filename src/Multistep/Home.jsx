@@ -42,61 +42,32 @@ function Home(){
       const handlelog = () => {
             navigate('/');
       }
-      
-      // const handleSubmit = async (e) => {
-      //   e.preventDefault();
-      //   try {
-      //     const token = localStorage.getItem('token'); 
-      //     const response = await axios.put('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/update-profile',formData, 
-      //       {
-      //         headers: {
-      //           Authorization: `Bearer ${token}`, 
-      //         },
-      //         params: {
-      //           role: formData.role, 
-      //         }
-      //       }
-      //     );
-    
-      //     if (response.status === 200) {
-      //       alert("Profile updated successfully");
-      //       navigate('/Dashboard'); 
-      //     }
-      //   } catch (error) {
-      //     console.error("Error updating profile:", error);
-      //     alert("Failed to update profile.");
-      //   }
-      // };
-      
-      const handleSubmit = async (e) => {
+        
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const token = localStorage.getItem('token');
-        const payload = { ...formData, role: isretailer ? "Entrepreneur" : "Investor" };
-      
-        try {
-          const response = await axios.put('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/update-profile', payload, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          if (response.status === 200) navigate('/Dashboard');
-        } catch (error) {
-          console.error("Error:", error);
-          alert("Profile update failed.");
+
+        if (!token) {
+            alert("You need to login first.");
+            return navigate('/');
         }
-      };
-   
+
+        try {
+       const response = await axios.put('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/update-profile', formData, {
+            headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                }
+            });
+            alert(response.data.message);
+            navigate("/Dashboard");
+        } catch (error) {
+            console.error('There was an error submitting the form!', error);
+        }
+    };
+
    const [isretailer, setRetailer] = useState(false);
    const [action , setAction] = useState(true);
-//    const [experience, setExperience] = useState(''); 
-    // const [showDropdown, setShowDropdown] = useState(false);
-
-//     const handleExperienceClick = () => {
-//       setShowDropdown(!showDropdown);
-//   };
-//   const handleOptionClick = (option) => {
-//     setExperience(option); 
-//     setShowDropdown(false); 
-// };
-
   const [step, setStep] = useState(1);
   const [step2, setStep2] = useState(1);
   const totalSteps2 = 2
@@ -108,16 +79,7 @@ function Home(){
     } else {
       alert("Please fill in all required fields.");
     }
-  
-    // setStep(prevStep => (prevStep < 3 ? prevStep + 1 : prevStep));
-  
 };
-
-// const nextStep1 = () => {
-//   if(experience === "" || years === "" || bio === ""){
-//     alert("All fields required");
-//   }
-// }
   
 const prevStep = () => {
   setStep(prevStep => (prevStep > 1 ? prevStep - 1 : prevStep));
@@ -142,7 +104,6 @@ const prevStep = () => {
         setAction(true);
     }
 
-    
      return(
       <div>
      
@@ -281,6 +242,10 @@ onChange={handleInputChange}  required />
          <button className='btn' onClick={handleinvestor}>Investor</button>
        </div>  
             </div> :
+            <div>
+              <div>
+             <button className='back-btn' onClick={handlehome}>Back</button>
+            </div>
              <div className="container">
               <div className='progress-container'>
               <Progress className="progress active" totalSteps2={totalSteps2} step2={step2}  />
@@ -391,7 +356,7 @@ onChange={handleInputChange}  required />
                
         </div>
        
-        </div>    </form>   </div>}
+        </div>    </form>   </div> </div>}
          
        </div>
      )

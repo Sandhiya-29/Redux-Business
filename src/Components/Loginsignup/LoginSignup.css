@@ -172,6 +172,12 @@ img {
     .input input {
         width: 100%;
     }
+    .pass-icon {
+        margin-left: 90%; 
+        top: 25%;
+        font-size: 1.2rem; 
+    }
+    
 }
 
 @media (min-width: 1024px) {
@@ -187,6 +193,11 @@ img {
 
     .input input {
         width: 280px;
+    }
+    .pass-icon {
+        margin-left: 85%; 
+        top: 24%;
+        font-size: 1.4rem; 
     }
 }
 .login{

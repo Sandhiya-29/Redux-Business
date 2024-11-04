@@ -7,6 +7,7 @@ import { SlLike } from "react-icons/sl";
 import { FaRegComment } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
 import { FaUserCircle, FaSearch,FaPlus, FaFacebookMessenger} from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [showInput, setShowInput] = useState(false);
@@ -28,18 +29,11 @@ const Dashboard = () => {
       teamMembers: '',
       socialImpact: '',
     });
-   
-    useEffect(() => {
-      axios.get(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/get-posts`)
-        .then(response => {
-          setPostsData(response.data); 
-        })
-        .catch(error => console.error('Error fetching posts:', error));
-    }, []);
-   
+    const navigate = useNavigate()  
+
     const toggleLike = (postId, liked) => {
       if (liked) {
-        axios.put(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/like-post/${postId}`)
+        axios.put(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/like-post/${postId}`)
           .then(() => {
             setLikedPosts((prevLikedPosts) => ({
               ...prevLikedPosts,
@@ -48,7 +42,7 @@ const Dashboard = () => {
           })
           .catch(error => console.error('Error unliking post:', error));
       } else {
-        axios.put(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/like-post/${postId}`)
+        axios.put(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/like-post/${postId}`)
           .then(() => {
             setLikedPosts((prevLikedPosts) => ({
               ...prevLikedPosts,
@@ -81,23 +75,56 @@ const Dashboard = () => {
    });
  };
 
- const handlePostSubmit = () => {
-   axios.post('https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/post', newPost)
-     .then(() => {
-       formmodal();
-       axios.get('https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/get-posts') // Re-fetch posts after new post
-       .then(response => {
-         console.log(response.data); 
-         setPostsData(response.data);
-       })
-     })
-     .catch(error => console.error('Error posting:', error));
- };
+  
+const handlePostSubmit = async (e) => {
+  e.preventDefault(); 
+
+  const token = localStorage.getItem('token')
+
+  if(!token) {
+    alert("You need to login");
+   return navigate("/");
+  }
+ try{
+ const response =await axios.post('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/post', newPost, {
+    headers: {
+      'Content-Type' :'application/json',
+      'Authorization': `Bearer ${token}`,
+    }
+   })
+  alert(response.data.message);
+  handleGetPosts()
+  } catch(error) {
+    console.error("Error in posting ", error)
+  }
+    };
+   
+      const handleGetPosts = async () => {
+           const token = localStorage.getItem('token');
+        
+           if (!token) {
+            alert("You need to login");
+             return navigate("/");
+           }
+        
+           try {
+             const response = await axios.get('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/get-posts', postsData, {
+               headers: {
+                 'Authorization':`Bearer ${token}`,
+               }
+            });
+            setPostsData(response.data.postsData); 
+          } catch (error) {
+            console.error("Error fetching posts: ", error);
+          }
+         };
+   
+   
  useEffect(() => {
  const fetchProfileSuggestions = async () => {
   try {
-    const res = await axios.get(`https://4adf-2409-40f4-2-d5c7-4c7f-1694-8a0a-edc3.ngrok-free.app/api/suggestions`); 
-    setProfileSuggestions(res.data); 
+    const res = await axios.get(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/suggestions`); 
+      setProfileSuggestions(res.data);
   } catch (error) {
     console.error('Error fetching profile suggestions', error);
   }
@@ -105,11 +132,16 @@ const Dashboard = () => {
 fetchProfileSuggestions(); 
 }, []);
 
+const handlelog = () => {
+  navigate('/');
+}
+
   return (
     <div>
    <div>
        <Header />
    </div>
+   
    <div className='content-icons'>
    {showInput && 
             <input 
@@ -122,6 +154,9 @@ fetchProfileSuggestions();
           
            <FaPlus className='plus-icon' onClick={formmodal} />
            <FaFacebookMessenger className='message-icon' />
+           <div> 
+         <button className='back-btn' onClick={handlelog}>Log Out</button>
+          </div>
           </div>
    <div className='content'>
         <div className='post-container'>
@@ -132,9 +167,20 @@ fetchProfileSuggestions();
               <h1> <FaUserCircle className="user-icon" /></h1>
               </div>
               <div>
-              <h2 className='name'>{post.name}</h2>
-                <h3 className='entrepreneur'>{post.role}</h3>
-                 <p className='description'>{post.description}</p> 
+              <h2 className='name'>{postsData.name}</h2>
+                <h3 className='entrepreneur'>{postsData.role}</h3>
+                 <p className='description'>{postsData.businessName}</p>
+                 <p className='description'>{postsData.businessType}</p>
+                 <p className='description'>{postsData.tagline}</p>
+                 <p className='description'>{postsData.description}</p>
+                 <p className='description'>{postsData.targetMarket}</p>
+                 <p className='description'>{postsData.marketSize}</p>
+                 <p className='description'>{postsData.financialStatus}</p>
+                 <p className='description'>{postsData.fundingRequirements}</p>
+                 <p className='description'>{postsData.projections}</p>
+                 <p className='description'>{postsData.founderBackground}</p>
+                 <p className='description'>{postsData.teamMembers}</p>
+                 <p className='description'>{postsData.socialImpact}</p>
               </div>
               </div>
                <div className='post-icons'>
@@ -162,16 +208,16 @@ fetchProfileSuggestions();
         </div>
         <div className='members'>
         <h3 className="profiles">More profiles for you</h3>
-          {profileSuggestions.length > 0 ? (
+          {Array.isArray(profileSuggestions) && profileSuggestions.length > 0 ? (
             profileSuggestions.map((profile, index) => (
               <div className='suggestion' key={index}>
                 <div>
                   <h2><FaUserCircle className='user-icon' /></h2>
                 </div>
                 <div>
-                  <h3 className='name'>{profile.fullName}</h3>
-                  <h4 className='entrepreneur'>{profile.role}</h4>
-                  <p className='description'>{profile.bio || 'Open to Invest'}</p>
+                  <h3 className='name'>{profileSuggestions.fullName}</h3>
+                  <h4 className='entrepreneur'>{profileSuggestions.role}</h4>
+                  <p className='description'>{profileSuggestions.bio || 'Open to Invest'}</p>
                   <button className="view-profile">View Profile</button>
                 </div>
                 <hr />
@@ -186,54 +232,72 @@ fetchProfileSuggestions();
         </div>
    </div>
 
-      {modal && ( <div className='form-modal'>
+      {modal && (<form onSubmit={handlePostSubmit}> <div className='form-modal'>
                   <div onClick={formmodal} className='overlay'></div>
                   <div className='form-content'>
                      <button className='form-post'>Post</button>
               <div className='input' >
               <input type="text" name="businessName" placeholder='Business Name'
+              value={newPost.businessName}
                onChange={handleChange} />
               </div>
               <div className='input' >
               <input type="text" name="businessType" placeholder='Business Type' 
+              value={newPost.businessType}
               onChange={handleChange} />
               </div>
               <div className='input' >
-              <input type="text" name="tagline" placeholder='Tagline' onChange={handleChange} />
+              <input type="text" name="tagline" placeholder='Tagline'
+              value={newPost.tagline}
+               onChange={handleChange} />
               </div>
               <div className='input' >
            <textarea name="description"  placeholder='Description of Business'
+           value={newPost.description}
            onChange={handleChange}>
                </textarea>
               </div>
               <div className='input' >
-                 <input type="text" name='targetMarket' placeholder='Target Market' onChange={handleChange}  /> 
+                 <input type="text" name='targetMarket' placeholder='Target Market'
+                 value={newPost.targetMarket}
+                  onChange={handleChange}  /> 
               </div>
               <div className='input' >
-                 <input type="text" name='marketSize' placeholder='Market Size' onChange={handleChange} /> 
+                 <input type="text" name='marketSize' placeholder='Market Size'
+                 value={newPost.marketSize}
+                  onChange={handleChange} /> 
               </div>
               <div className='input' >
                  <input type="text" name='financialStatus'
-                  placeholder='Current Financial Status' onChange={handleChange}  /> 
+                  placeholder='Current Financial Status'
+                  value={newPost.financialStatus}
+                   onChange={handleChange}  /> 
               </div>
               <div className='input' >
                  <input type="text" name='fundingRequirements' 
-                 placeholder='Funding Requirements' onChange={handleChange}  /> 
+                 placeholder='Funding Requirements' value={newPost.fundingRequirements}
+                 onChange={handleChange}  /> 
               </div>
               <div className='input' >
-                 <input type="text"  name='projections' placeholder='Financial Projections' onChange={handleChange}  /> 
+                 <input type="text"  name='projections' placeholder='Financial Projections'
+                 value={newPost.projections}
+                  onChange={handleChange}  /> 
               </div>
               <div className='input' >
-                 <input type="text" name='founderBackground' placeholder='Founder Background' onChange={handleChange}  /> 
+                 <input type="text" name='founderBackground' placeholder='Founder Background'
+                 value={newPost.founderBackground}
+                  onChange={handleChange}  /> 
               </div>
               <div className='input' >
-                 <input type="text" name='teamMembers' placeholder='Team Members and their Role' onChange={handleChange} /> 
+                 <input type="text" name='teamMembers' placeholder='Team Members and their Role'
+                 value={newPost.teamMembers} onChange={handleChange} /> 
               </div>
               <div className='input' >
-                 <input type="text" name='socialImpact' placeholder='Social Impact Commity Benefits' onChange={handleChange} /> 
+                 <input type="text" name='socialImpact' placeholder='Social Impact Commity Benefits'
+                 value={newPost.socialImpact} onChange={handleChange} /> 
               </div>
-              <button onClick={handlePostSubmit} className="post-btn">Post</button>
-              </div>  </div> )}
+              <button type='submit' className="post-btn">Post</button>
+              </div>  </div> </form> )}
    </div>
   )
 }

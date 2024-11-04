@@ -433,8 +433,6 @@ hr {
     width: 100%;
     margin-left: 0;
   }
-
- 
 }
 
 /* Medium devices (tablets, 601px - 1024px) */
@@ -500,9 +498,10 @@ hr {
   }
 }
 .post-btn {
-  width: 100%;
+  width: 30%;
   height: 45px;
   margin-bottom: 20px;
+  font-size: 22px;
 }
 body {
   font-size: 1rem;
@@ -512,7 +511,6 @@ body {
     font-size: 0.9rem;
   }
 }
-
 @media (min-width: 601px) and (max-width: 1024px) {
   body {
     font-size: 1rem;

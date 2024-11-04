@@ -13,17 +13,25 @@ const Profile = () => {
   const [profileSuggestions, setProfileSuggestions] = useState([]);
   const [modal, setModal] = useState(false);
   const [interest, setInterest]  =  useState(false);
+  
+
+  
 
   useEffect(() => {
     const fetchUserProfile = async () => {
+      
+      const token = localStorage.getItem('token')
+
+  if(!token) {
+    alert("You need to login");
+  }
       try {
-        const token = localStorage.getItem('authToken'); 
-        const res = await axios.get(`https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/profile`, {
+        const response = await axios.get(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setUserData(res.data); 
+        setUserData(response.data); 
         setLoading(false);
       } catch (error) {
         console.error('Error fetching user profile', error);
@@ -33,10 +41,16 @@ const Profile = () => {
 
     const fetchProfileSuggestions = async () => {
       try {
-        const res = await axios.get(`https://34db-2401-4900-8827-b35b-943a-f82d-fce4-3f72.ngrok-free.app/api/suggestions`); 
-        setProfileSuggestions(res.data); 
+        const res = await axios.get(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/suggestions`); 
+        if (Array.isArray(res.data)) {
+          setProfileSuggestions(res.data);
+        } else {
+          console.error('Data is not an array:', res.data);
+          setProfileSuggestions([]); 
+        }
       } catch (error) {
         console.error('Error fetching profile suggestions', error);
+        setProfileSuggestions([]);
       }
     };
     fetchUserProfile();
@@ -154,7 +168,7 @@ const Profile = () => {
 
         <div className='members-2'>
           <h3 className="profiles">More profiles for you</h3>
-          {profileSuggestions.length > 0 ? (
+          { Array.isArray(profileSuggestions) && profileSuggestions.length > 0 ? (
             profileSuggestions.map((profile, index) => (
               <div className='suggestion' key={index}>
                 <div>

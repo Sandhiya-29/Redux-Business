@@ -41,7 +41,7 @@ const ResetPassword = () => {
             return;
         }
         try {
-            const response = await axios.post(`https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/reset-password/${token}`,{ password }, {
+            const response = await axios.post(`https://757d-2409-40f4-100e-d901-e1f9-2917-285f-2ef9.ngrok-free.app/api/reset-password/${token}`,{ password }, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

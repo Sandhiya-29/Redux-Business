@@ -37,18 +37,18 @@ function LoginSignup() {
   };
 
   const handleGoogleSignIn = () => {
-    window.location.href = `https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/auth/google/callback`;
+    window.location.href = `https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/auth/google/callback`;
   };
 
   const handleFacebookLogin = () => {
-    window.location.href = 'https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/auth/facebook/callback';
+    window.location.href = 'https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/auth/facebook/callback';
   };
 
 
   const fetchProtectedData = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/protected-route', {
+      const response = await axios.get('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/protected-route', {
         headers: {
           Authorization: token,  
         },
@@ -65,13 +65,13 @@ function LoginSignup() {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/login', {
+      const response = await axios.post('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/login', {
         email,
         password,
       }, {
         headers: {
           'Content-Type': 'application/json',
-        },
+        },setShowPassword
       });
       if (response.data.accessToken) {
         localStorage.setItem('token', `Bearer ${response.data.accessToken}`);
@@ -90,7 +90,7 @@ function LoginSignup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/register', register);
+      await axios.post('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/register', register);
       setMessage('Registration successful!');
       navigate('/');
     } catch (error) {
@@ -104,7 +104,7 @@ function LoginSignup() {
     setMessage('');
     setErrorMessage('');
     try {
-        const response = await axios.post('https://d81b-2401-4900-8826-5275-ac39-88d9-64ce-3229.ngrok-free.app/api/forgot-password', { email }, {
+        const response = await axios.post('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/forgot-password', { email }, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
