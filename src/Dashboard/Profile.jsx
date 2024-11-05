@@ -6,6 +6,7 @@ import { FaUserCircle } from 'react-icons/fa';
 import { LuPencil } from "react-icons/lu";
 import background from '../Assests/360_F_172318263_046YEZYCK2hDGJR6X6lm4Gbaxar65Rew.jpg';
 import { IoClose } from "react-icons/io5";
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
   const [userData, setUserData] = useState({});
@@ -13,9 +14,8 @@ const Profile = () => {
   const [profileSuggestions, setProfileSuggestions] = useState([]);
   const [modal, setModal] = useState(false);
   const [interest, setInterest]  =  useState(false);
-  
+  const navigate = useNavigate("");
 
-  
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -26,7 +26,7 @@ const Profile = () => {
     alert("You need to login");
   }
       try {
-        const response = await axios.get(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/profile`, {
+        const response = await axios.get(`https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/profile`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -41,7 +41,7 @@ const Profile = () => {
 
     const fetchProfileSuggestions = async () => {
       try {
-        const res = await axios.get(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/suggestions`); 
+        const res = await axios.get(`https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/suggestions`); 
         if (Array.isArray(res.data)) {
           setProfileSuggestions(res.data);
         } else {
@@ -74,11 +74,18 @@ const Profile = () => {
       const intresetinfo = () => {
         setInterest(!interest)
       }
+
+      const handlelog = () => {
+        navigate('/');
+      }
   return (
     <div>
       <div>
         <Header />
       </div>
+      
+         <button className='back-btn' onClick={handlelog}>Log Out</button>
+          
       <div className="profile">
         <div className='profile-container'>
           <div>

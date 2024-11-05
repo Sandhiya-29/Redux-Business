@@ -53,7 +53,7 @@ function Home(){
         }
 
         try {
-       const response = await axios.put('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/update-profile', formData, {
+       const response = await axios.put('https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/update-profile', formData, {
             headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,
@@ -125,8 +125,6 @@ const prevStep = () => {
                        </div>
               </div>
               
-            
-      
        <form onSubmit={handleSubmit} >
              <div className='form'> 
           {step === 1 && (
@@ -164,11 +162,11 @@ onChange={handleInputChange}  required />
           </select>
         </div>
                         
-                            <div className='input'>
-                                <input type="text" placeholder='Years of Experience'
-                                name='years'
-                                 value={formData.years}
-                 onChange={handleInputChange}  
+         <div className='input'>
+       <input type="text" placeholder='Years of Experience'
+                 name='years'
+           value={formData.years}
+        onChange={handleInputChange}  
                                 required/>
                             </div>
                             <div className='input'>

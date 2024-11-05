@@ -33,7 +33,7 @@ const Dashboard = () => {
 
     const toggleLike = (postId, liked) => {
       if (liked) {
-        axios.put(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/like-post/${postId}`)
+        axios.put(`https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/like-post/${postId}`)
           .then(() => {
             setLikedPosts((prevLikedPosts) => ({
               ...prevLikedPosts,
@@ -42,7 +42,7 @@ const Dashboard = () => {
           })
           .catch(error => console.error('Error unliking post:', error));
       } else {
-        axios.put(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/like-post/${postId}`)
+        axios.put(`https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/like-post/${postId}`)
           .then(() => {
             setLikedPosts((prevLikedPosts) => ({
               ...prevLikedPosts,
@@ -86,52 +86,51 @@ const handlePostSubmit = async (e) => {
    return navigate("/");
   }
  try{
- const response =await axios.post('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/post', newPost, {
+ const response =await axios.post('https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/post', newPost, {
     headers: {
       'Content-Type' :'application/json',
-      'Authorization': `Bearer ${token}`,
+      'Authorization': token,
     }
    })
   alert(response.data.message);
-  handleGetPosts()
+  formmodal()
   } catch(error) {
     console.error("Error in posting ", error)
   }
     };
+      
+    useEffect(() => {
+      const fetchPosts = async () => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+          alert("You need to login");
+          return navigate("/");
+        }
+  
+        try {
+          const res = await axios.get('https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/get-posts', {
+            headers: { Authorization: token }
+          });
+          setPostsData(res.data);
+        } catch (error) {
+          console.error('Error fetching posts', error);
+        }
+      };
+  
+      const fetchProfileSuggestions = async () => {
+        try {
+          const res = await axios.get(`https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/suggestions`);
+          setProfileSuggestions(res.data);
+        } catch (error) {
+          console.error('Error fetching profile suggestions', error);
+        }
+      };
+      fetchPosts();
+      fetchProfileSuggestions();
+    }, [navigate]);   
+    
    
-      const handleGetPosts = async () => {
-           const token = localStorage.getItem('token');
-        
-           if (!token) {
-            alert("You need to login");
-             return navigate("/");
-           }
-        
-           try {
-             const response = await axios.get('https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/get-posts', postsData, {
-               headers: {
-                 'Authorization':`Bearer ${token}`,
-               }
-            });
-            setPostsData(response.data.postsData); 
-          } catch (error) {
-            console.error("Error fetching posts: ", error);
-          }
-         };
-   
-   
- useEffect(() => {
- const fetchProfileSuggestions = async () => {
-  try {
-    const res = await axios.get(`https://2e2a-2409-40f4-100a-5aeb-85f1-56b7-93d5-f6ce.ngrok-free.app/api/suggestions`); 
-      setProfileSuggestions(res.data);
-  } catch (error) {
-    console.error('Error fetching profile suggestions', error);
-  }
-};
-fetchProfileSuggestions(); 
-}, []);
-
+ 
 const handlelog = () => {
   navigate('/');
 }
