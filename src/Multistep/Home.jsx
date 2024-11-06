@@ -40,7 +40,8 @@ function Home(){
       const navigate = useNavigate("")
 
       const handlelog = () => {
-            navigate('/');
+        localStorage.removeItem("authToken");
+        window.location.href="/";
       }
         
     const handleSubmit = async (e) => {
@@ -53,7 +54,7 @@ function Home(){
         }
 
         try {
-       const response = await axios.put('https://289a-2401-4900-8827-8076-81fd-88aa-71b7-3dcb.ngrok-free.app/api/update-profile', formData, {
+       const response = await axios.put('https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/update-profile', formData, {
             headers: {
                     'Content-Type': 'application/json',
                     'Authorization': token,
