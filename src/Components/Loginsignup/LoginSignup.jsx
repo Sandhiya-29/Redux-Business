@@ -42,8 +42,7 @@ function LoginSignup() {
   const handleFacebookLogin = () => {
     window.location.href = 'https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/auth/facebook/callback';
   };
-
-
+  
   const fetchProtectedData = async () => {
     try {
       const token = localStorage.getItem('token');
@@ -76,7 +75,13 @@ function LoginSignup() {
       if (response.data.accessToken) {
         localStorage.setItem('token', `Bearer ${response.data.accessToken}`);
         fetchProtectedData();
+        if (!localStorage.getItem('hasLoggedInBefore')) {
+          localStorage.setItem('hasLoggedInBefore', 'true');
           navigate('/Home');
+        } else {
+          navigate('/Dashboard');
+        }
+      
       } else {
         alert('Login failed: No token received.');
       }
@@ -90,10 +95,11 @@ function LoginSignup() {
     e.preventDefault();
     try {
       await axios.post('https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/register', register);
-      setMessage('Registration successful!');
-      localStorage.setItem('hasLoggedInBefore', 'true'); 
+      alert('Registration successful!');
+      handleSignupToggle()
     } catch (error) {
       console.error('There was an error submitting the form!', error);
+      alert("Error in submitting form/ User already registered");
     }
   };
 
