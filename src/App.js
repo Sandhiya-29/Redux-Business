@@ -10,6 +10,7 @@ import Profile from './Dashboard/Profile.jsx';
 function App() {
   return (
     <div className="App">
+   
         <Router>
           <Routes>
             <Route path='/' element={<LoginSignup />} />
@@ -20,6 +21,7 @@ function App() {
             <Route path='/profile' element={<Profile />} />
           </Routes>
         </Router>
+       
     </div>
   );
 }

@@ -1,66 +1,32 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Header from './Header';
 import './Profile.css';
 import { FaUserCircle } from 'react-icons/fa';
 import { LuPencil } from "react-icons/lu";
 import background from '../Assests/360_F_172318263_046YEZYCK2hDGJR6X6lm4Gbaxar65Rew.jpg';
 import { IoClose } from "react-icons/io5";
+import {  useSelector,useDispatch } from 'react-redux';
+import {getuserDetailsFromServer, updateuserDetailsInServer} from '../slices/EntrepreneurSlice';
 
 
 const Profile = () => {
-  const [userData, setUserData] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [profileSuggestions, setProfileSuggestions] = useState([]);
+  
+   const {userdetails} = useSelector((state) => state.form)
+  const dispatch = useDispatch()
+    
   const [modal, setModal] = useState(false);
   const [interest, setInterest]  =  useState(false);
+  const [updatemodal, setUpdateModal] = useState(false);
+  const [editableDetails, setEditableDetails] = useState({
+    fullName: '',
+    role: '',
+    location: '',
+    experience: '',
+    bio: ''
+  });
+  
   
 
-  useEffect(() => {
-    const fetchUserProfile = async () => {
-      
-      const token = localStorage.getItem('token')
-
-  if(!token) {
-    alert("You need to login");
-  }
-      try {
-        const response = await axios.get(`https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUserData(response.data); 
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching user profile', error);
-        setLoading(false);
-      }
-    };
-
-    const fetchProfileSuggestions = async () => {
-      try {
-        const res = await axios.get(`https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/suggestions`); 
-        if (Array.isArray(res.data)) {
-          setProfileSuggestions(res.data);
-        } else {
-          console.error('Data is not an array:', res.data);
-          setProfileSuggestions([]); 
-        }
-      } catch (error) {
-        console.error('Error fetching profile suggestions', error);
-        setProfileSuggestions([]);
-      }
-    };
-    fetchUserProfile();
-    fetchProfileSuggestions(); 
-    
-  }, []);
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-       
     const contactinfo = () => {
       setModal(!modal);
 
@@ -73,46 +39,135 @@ const Profile = () => {
       const intresetinfo = () => {
         setInterest(!interest)
       }
+      
+      
+      const update = (userData) => {
+        setEditableDetails({
+          fullName: userData.fullName,
+          role: userData.role,
+          location: userData.location,
+          experience: userData.experience,
+          bio: userData.bio,
+          id: userData.id
+        });
+        setUpdateModal(!updatemodal);
+        document.body.classList.toggle("active-modal", !updatemodal);
+      };
+      const handleSaveChanges = () => {
+        dispatch(updateuserDetailsInServer(editableDetails))
+          .then(() => setUpdateModal(false)) // close modal on success
+          .catch(error => console.error("Error updating details:", error));
+      };
 
       const handlelog = () => {
         localStorage.removeItem("authToken");
         window.location.href="/";
       }
+    
+  useEffect(() => {
+    dispatch(getuserDetailsFromServer())
+  }, [dispatch])    
+
   return (
     <div>
+         <div>
       <div>
         <Header />
       </div>
-      
          <button className='back-btn' onClick={handlelog}>Log Out</button>
-          
-      <div className="profile">
-        <div className='profile-container'>
-          <div>
+          <div className="profile">
+          {userdetails && userdetails.map((form,index) => { 
+          return (
+        <div key={form.id} className='profile-container'>
+        <div>
             <img src={background} alt="background" className='background' />
-            <div className='image-container'>
-              {userData.avatar ? (
-                <img src={userData.avatar} alt="User Avatar" className='profile-image' />
-              ) : (
-                <FaUserCircle className='profile-image' />
-              )}
-            </div>
-          </div>
+             {/* <div className='image-container'>
+             
+                {/* <img src={} alt="User Avatar" className='profile-image' /> */}
+            
+                  {/* <FaUserCircle className='profile-image' />   */}
+             
+           {/* </div>   */} 
+          </div> 
           <div>
-            <LuPencil className='pencil-icon' />
+            <LuPencil className='pencil-icon' onClick={() => update(form)} />
           </div>
+         {updatemodal && <div>
+          <div className="contact-modal">
+      <div className="overlay"></div>
+      <div className="contact-info">
+        <div className="name-close">
+          <h2>Edit Profile</h2>
+          <IoClose className="close" onClick={update} />
+        </div>
+         <div className="profile-link">
+          <label>Full Name</label>
+          <input
+            type="text"
+            name="fullName"
+            className="edit-input"
+            value={editableDetails.fullName}
+  onChange={(e) => setEditableDetails({ ...editableDetails, fullName: e.target.value })}
+          />
+        </div> 
+        <div className="profile-link">
+          <label>Role</label>
+          <input
+            type="text"
+            name="role"
+            className="edit-input"
+            value={editableDetails.role}
+  onChange={(e) => setEditableDetails({ ...editableDetails, role: e.target.value })}
+          />
+        </div>
+        <div className="profile-link">
+          <label>Location</label>
+          <input
+            type="text"
+            name="location"
+            className="edit-input"
+            value={editableDetails.location}
+  onChange={(e) => setEditableDetails({ ...editableDetails, location: e.target.value })}
+          />
+        </div>
+        <div className="profile-link">
+          <label>Experience</label>
+          <input
+            type="text"
+            name="experience"
+            className="edit-input"
+            value={editableDetails.experience}
+  onChange={(e) => setEditableDetails({ ...editableDetails, experience: e.target.value })}
+          />
+        </div>
+        <div className="profile-link">
+          <label>Bio</label>
+          <textarea
+            name="bio"
+            className="edit-input"
+            value={editableDetails.bio}
+  onChange={(e) => setEditableDetails({ ...editableDetails, bio: e.target.value })}
+          />
+        </div>
+        <button className="save-btn" onClick={handleSaveChanges}>
+          Save Changes <LuPencil />
+        </button>
+      </div>
+    </div>
+          </div>}
           <div>
             <p className="user-experience">
-              {userData.details?.experience ? 'Experienced' : 'Fresher'}
+          {form.experience}
             </p>
             <p className='previous-experience'>
-              {userData.details?.years ? `${userData.details.years} years experience` : 'No experience yet'}
+             {form.years}
             </p>
+             
           </div>
           <div className="details">
-            <h2 className="user-name">{userData.details?.fullName || 'Name not provided'}</h2>
-            <p className="user-role">{userData.details?.role || 'Role not defined'}</p>
-     <p className="user-location">{userData.details?.location || 'Location not provided'}</p>
+            <h2 className="user-name"> {form.fullName} </h2>
+            <p className="user-role"> {form.role} </p>
+     <p className="user-location"> {form.location} </p>
           </div>
           <div className='user-personal'>
             <button className="user-info" onClick={contactinfo}>Contact info</button>
@@ -122,14 +177,14 @@ const Profile = () => {
           </div>
           <hr className='about-line' />
           <div>
-        <p className="user-bio">{userData.details?.bio || 'About'}</p>
+        <p className="user-bio">{form.bio} </p>
           </div>
           <div>
-            <p className="title">{userData.details?.businessTitle || 'Business Title'}</p>
-            <p className='user-idea'>{userData.details?.businessIdea || 'Business Idea'}</p>
+            <p className="title">{form.businessTitle} </p>
+            <p className='user-idea'>{form.businessIdea} </p>
           </div>
-        </div>
-        {modal && <div className='contact-modal'>
+        </div>  )})}
+        {/* {modal && <div className='contact-modal'>
              <div className='overlay' onClick={contactinfo}></div>
         <div className='contact-info'>
           <div className="name-close">
@@ -143,12 +198,12 @@ const Profile = () => {
             <div className="contact-email">
               <h2>Email</h2>
              </div>
-             <h3 className="email-id">{userData.details?.email || 'Email not provided'}</h3>
+             <h3 className="email-id"> </h3>
             <h2 className='contact-number'>Phone Number</h2>
-            <h3 className="number">{userData.details?.phoneNumber || 'Number not provided'}</h3>
+            <h3 className="number">  </h3>
             <h2 className='social-links'>Social Media Links</h2>
              <div className='social-media'>
-              <h3>{userData.details?.BusinessSocialMediaLinks || 'It is not provided'}</h3>
+              <h3> </h3>
              </div>
              
            </div>
@@ -163,38 +218,37 @@ const Profile = () => {
                <IoClose className='close' onClick={intresetinfo} />
            </div>
            <div className='profile-link'>
-            <h3 className="interest">{userData.details?.areaOfInterest || 'It is not provided'}</h3>
+            <h3 className="interest"> </h3>
             <LuPencil className='edit-icon' /> 
             </div>
             <div className="contact-email">
               <h2>Funding Needed</h2>
              </div>
-             <h3 className="email-id">{userData.details?.fundingNeeded || 'It is not provided'}</h3>
+             <h3 className="email-id"> </h3>
            </div>
           </div>}
-
+         */}
         <div className='members-2'>
           <h3 className="profiles">More profiles for you</h3>
-          { Array.isArray(profileSuggestions) && profileSuggestions.length > 0 ? (
-            profileSuggestions.map((profile, index) => (
-              <div className='suggestion' key={index}>
+        
+              <div className='suggestion'>
                 <div>
                   <h2><FaUserCircle className='user-icon' /></h2>
                 </div>
                 <div>
-                  <h3 className='name'>{profile.fullName}</h3>
-                  <h4 className='entrepreneur'>{profile.role}</h4>
-                  <p className='description'>{profile.bio || 'Open to Invest'}</p>
+                  <h3 className='name'> </h3>
+                  <h4 className='entrepreneur'> </h4>
+                  <p className='description'></p>
                   <button className="view-profile">View Profile</button>
                 </div>
                 <hr />
               </div>
-            ))
-          ) : (
-            <p>No profiles to suggest</p>
-          )}
+           
+           
+         
         </div>
-      </div>
+      </div> 
+    </div>   
     </div>
   );
 };

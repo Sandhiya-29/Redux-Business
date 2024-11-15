@@ -344,3 +344,21 @@ body.active-modal {
     font-size: 0.8rem;
   }
 }
+.edit-input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.save-btn {
+  background-color: rgb(6, 196, 6);
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 15px;
+}
+

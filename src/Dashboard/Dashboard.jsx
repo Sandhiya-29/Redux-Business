@@ -1,20 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState,} from 'react';
 import './Dashboard.css';
-import axios from 'axios';
 import Header from './Header';
 import { SlLike } from "react-icons/sl";
  import { AiFillLike } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { LuSend } from "react-icons/lu";
 import { FaUserCircle, FaSearch,FaPlus, FaFacebookMessenger} from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [showInput, setShowInput] = useState(false);
-  const [likedPosts, setLikedPosts] = useState({});
    const [modal, setModal]  = useState(false);
-   const [profileSuggestions, setProfileSuggestions] = useState([]);
-   const [postsData, setPostsData] = useState([]);
    const [newPost, setNewPost] = useState({
       businessName: '',
       businessType: '',
@@ -29,29 +24,7 @@ const Dashboard = () => {
       teamMembers: '',
       socialImpact: '',
     });
-    const navigate = useNavigate()  
-
-    const toggleLike = (postId, liked) => {
-      if (liked) {
-        axios.put(`https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/like-post/${postId}`)
-          .then(() => {
-            setLikedPosts((prevLikedPosts) => ({
-              ...prevLikedPosts,
-              [postId]: false,
-            }));
-          })
-          .catch(error => console.error('Error unliking post:', error));
-      } else {
-        axios.put(`https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/like-post/${postId}`)
-          .then(() => {
-            setLikedPosts((prevLikedPosts) => ({
-              ...prevLikedPosts,
-              [postId]: true,
-            }));
-          })
-          .catch(error => console.error('Error liking post:', error));
-      }
-    };
+    
     
 
    const formmodal = () =>{
@@ -76,58 +49,8 @@ const Dashboard = () => {
  };
 
   
-const handlePostSubmit = async (e) => {
-  e.preventDefault(); 
 
-  const token = localStorage.getItem('token')
-
-  if(!token) {
-    alert("You need to login");
-   return navigate("/");
-  }
- try{
- const response =await axios.post('https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/post', newPost, {
-    headers: {
-      'Content-Type' :'application/json',
-      'Authorization': token,
-    }
-   })
-  alert(response.data.message);
-  formmodal()
-  } catch(error) {
-    console.error("Error in posting ", error)
-  }
-    };
       
-    useEffect(() => {
-      const fetchPosts = async () => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          alert("You need to login");
-          return navigate("/");
-        }
-  
-        try {
-          const res = await axios.get('https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/get-posts', {
-            headers: { Authorization: token }
-          });
-          setPostsData(res.data);
-        } catch (error) {
-          console.error('Error fetching posts', error);
-        }
-      };
-  
-      const fetchProfileSuggestions = async () => {
-        try {
-          const res = await axios.get(`https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/suggestions`);
-          setProfileSuggestions(res.data);
-        } catch (error) {
-          console.error('Error fetching profile suggestions', error);
-        }
-      };
-      fetchPosts();
-      fetchProfileSuggestions();
-    }, [navigate]);   
     
    
  
@@ -160,37 +83,37 @@ const handlelog = () => {
           </div>
    <div className='content'>
         <div className='post-container'>
-        {Array.isArray(postsData) && postsData.map((post, i) => (
-            <div key={post._id} className='user-post' >
+       
+            <div  className='user-post' >
             <div className='post-content'>
               <div>
               <h1> <FaUserCircle className="user-icon" /></h1>
               </div>
               <div>
-              <h2 className='name'>{postsData.name}</h2>
-                <h3 className='entrepreneur'>{postsData.role}</h3>
-                 <p className='description'>{postsData.businessName}</p>
-                 <p className='description'>{postsData.businessType}</p>
-                 <p className='description'>{postsData.tagline}</p>
-                 <p className='description'>{postsData.description}</p>
-                 <p className='description'>{postsData.targetMarket}</p>
-                 <p className='description'>{postsData.marketSize}</p>
-                 <p className='description'>{postsData.financialStatus}</p>
-                 <p className='description'>{postsData.fundingRequirements}</p>
-                 <p className='description'>{postsData.projections}</p>
-                 <p className='description'>{postsData.founderBackground}</p>
-                 <p className='description'>{postsData.teamMembers}</p>
-                 <p className='description'>{postsData.socialImpact}</p>
+              <h2 className='name'> </h2>
+                <h3 className='entrepreneur'> </h3>
+                 <p className='description'> </p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'> </p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'></p>
+                 <p className='description'></p>
               </div>
               </div>
                <div className='post-icons'>
       
                 <div>
-               {likedPosts[post._id] ? (
-                  <AiFillLike className='thumb-icon' onClick={() => toggleLike(post._id, true)}  />
-               ) : (
-                  <SlLike className='thumb-icon'onClick={() => toggleLike(post._id, false)} />
-               )}
+              
+                  <AiFillLike className='thumb-icon'  />
+              
+                  <SlLike className='thumb-icon' />
+         
                <p className='like'>Like</p>
                </div>
                <div>
@@ -204,35 +127,31 @@ const handlelog = () => {
              
               </div> 
             </div>  
-         ))}
+       
         </div>
         <div className='members'>
         <h3 className="profiles">More profiles for you</h3>
-          {Array.isArray(profileSuggestions) && profileSuggestions.length > 0 ? (
-            profileSuggestions.map((profile, index) => (
-              <div className='suggestion' key={index}>
+         
+              <div className='suggestion' >
                 <div>
                   <h2><FaUserCircle className='user-icon' /></h2>
                 </div>
                 <div>
-                  <h3 className='name'>{profileSuggestions.fullName}</h3>
-                  <h4 className='entrepreneur'>{profileSuggestions.role}</h4>
-                  <p className='description'>{profileSuggestions.bio || 'Open to Invest'}</p>
+                  <h3 className='name'> </h3>
+                  <h4 className='entrepreneur'> </h4>
+                  <p className='description'></p>
                   <button className="view-profile">View Profile</button>
                 </div>
                 <hr />
               </div>
-            ))
-          ) : (
-            <p>No profiles to suggest</p>
-          )}
+            
              
              
              
         </div>
    </div>
 
-      {modal && (<form onSubmit={handlePostSubmit}> <div className='form-modal'>
+      {modal && (<form > <div className='form-modal'>
                   <div onClick={formmodal} className='overlay'></div>
                   <div className='form-content'>
                      <button className='form-post'>Post</button>

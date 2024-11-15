@@ -5,12 +5,12 @@ import { FaUser } from "react-icons/fa";
 import { HiBuildingOffice2 } from "react-icons/hi2";
 import { MdBusinessCenter } from "react-icons/md";
 import collab from '../Assests/Collaboration-bro.png';
- import axios from 'axios';
- import { useNavigate } from 'react-router-dom';
-
+import { useDispatch } from 'react-redux';
+import {  adduserDetailsToServer } from '../slices/EntrepreneurSlice.js';
+import { useNavigate } from 'react-router-dom';
 
 function Home(){
-
+    
     const [formData, setFormData] = useState(
         {
           fullName: '',
@@ -24,12 +24,18 @@ function Home(){
         businessIdea: '',
         businessAreaOfInterest: '',
         fundingNeeded: '',
-        investmentFocus: '',
-        investmentRange: '',
-    investorAreaofInterest: '',
-    InvestorSocialMediaLinks: '',}
+        role: '' 
+        }
       );
-        
+      const navigate = useNavigate("")
+        const dispatch = useDispatch("")
+        const [isretailer, setRetailer] = useState(false);
+        const [action , setAction] = useState(true);
+       const [step, setStep] = useState(1);
+       const [step2, setStep2] = useState(1);
+       const totalSteps2 = 2
+       const totalSteps = 3
+
       const handleInputChange = (e) => {
         setFormData({
           ...formData,
@@ -37,42 +43,20 @@ function Home(){
         });
       };
 
-      const navigate = useNavigate("")
-
       const handlelog = () => {
         localStorage.removeItem("authToken");
         window.location.href="/";
       }
-        
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            alert("You need to login first.");
-            return navigate('/');
+      
+      const adduserdetails = (e) => {
+        e.preventDefault()
+        if(formData) {
+        dispatch(adduserDetailsToServer(formData))
+        setFormData(" ")
+        navigate("/Dashboard")
         }
 
-        try {
-       const response = await axios.put('https://e5d3-2401-4900-8827-8076-14ee-9b87-6367-c5a0.ngrok-free.app/api/update-profile', formData, {
-            headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token,
-                }
-            });
-            alert(response.data.message);
-            navigate("/Dashboard");
-        } catch (error) {
-            console.error('There was an error submitting the form!', error);
-        }
-    };
-
-   const [isretailer, setRetailer] = useState(false);
-   const [action , setAction] = useState(true);
-  const [step, setStep] = useState(1);
-  const [step2, setStep2] = useState(1);
-  const totalSteps2 = 2
-  const totalSteps = 3
+      }
 
   const nextStep = () => {
     if (formData.fullName && formData.email && formData.phoneNumber && formData.location) {
@@ -87,17 +71,24 @@ const prevStep = () => {
 };
 
    const nextStep2 = () =>{
+    if(formData.experience && formData.years && formData.bio ){
     setStep2(prevStep2 => (prevStep2 <2 ? prevStep2 +1 : prevStep2));
+    }else{
+      alert("All fields are required");
+    }
    }
    const prevStep2 = () => {
     setStep2(prevStep2 => (prevStep2 >1 ? prevStep2 -1 : prevStep2));
    }
    const handleinvestor = () => {
     setAction(!action);
+     setFormData({formData });
+       dispatch(adduserDetailsToServer({formData }))
   }
     const handleretailer = () => {
     setAction(false);
     setRetailer(true);
+     dispatch(adduserDetailsToServer({formData }))
     }
 
     const handlehome = () => {
@@ -126,7 +117,7 @@ const prevStep = () => {
                        </div>
               </div>
               
-       <form onSubmit={handleSubmit} >
+       <form >
              <div className='form'> 
           {step === 1 && (
      <>
@@ -226,7 +217,7 @@ onChange={handleInputChange}  required />
                     </button>
                 )}
                 {step === 3 && (
-                    <button className='submit-btn' type="submit">
+                    <button className='submit-btn' type="submit" onClick={adduserdetails}>
                         Submit
                     </button>
                 )}
@@ -237,8 +228,8 @@ onChange={handleInputChange}  required />
             <img className='collab' src={collab} alt="collabration" width="600px" height="530px" />
          </div>
        <div className='role'>
-         <button className='btn' onClick={handleretailer}>Entrepreneur</button>
-         <button className='btn' onClick={handleinvestor}>Investor</button>
+         <button className='btn' onClick={() => handleretailer('Entrepreneur')}>Entrepreneur</button>
+         <button className='btn' onClick={() => handleinvestor('Investor')}>Investor</button>
        </div>  
             </div> :
             <div>
@@ -255,7 +246,7 @@ onChange={handleInputChange}  required />
                        </div>
                       
               </div>
-              <form onSubmit={handleSubmit}>
+              <form >
              <div className='form'>
                       
             {step2 === 1 && (
